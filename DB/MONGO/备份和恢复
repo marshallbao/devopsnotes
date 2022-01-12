@@ -1,0 +1,14 @@
+备份和恢复
+
+mongodump -h localhost -d logs -u recorder -p "recorderpassword" --out /opt/
+
+mongorestore --db logs -u recorder --password "recorderpassword" /opt/errlog.bson
+
+mongodump -d rainbow-tmp -u rainbow -p rainbowpassword --gzip -o=.
+
+mongodump -d sup-tech -c nft_history -u cschain -p ssssss --gzip -o=.mongorestore -d rainbow-tmp -u 
+
+rainbow -p rainbowpassword --gzip ./rainbow-tmp/
+
+mongoexport -d irita-gaia -c ex_staking_validator  -u gaia -p xxxxx
+
