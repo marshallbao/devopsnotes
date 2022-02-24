@@ -1,4 +1,5 @@
-​         useradd
+### useradd
+
 usermod
 chapasswd：批量修改密码
 passwd

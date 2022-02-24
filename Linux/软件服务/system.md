@@ -1,4 +1,4 @@
-​         linux7之后服务管理是systemctl
+linux7之后服务管理是systemctl
 
 运行级别：
     查看运行级别：systemctl get-default

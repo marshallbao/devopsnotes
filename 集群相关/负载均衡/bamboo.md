@@ -1,4 +1,5 @@
-         Bamboo是一个Web守护程序，可自动为Apache Mesos和Marathon上部署的Web服务配置HAProxy 。
+Bamboo是一个Web守护程序，可自动为Apache Mesos和Marathon上部署的Web服务配置HAProxy 。
+
 它的特点是：
 • 用于为每个Marathon应用程序配置HAProxy ACL规则的用户界面
 • Rest API用于配置代理ACL规则
