@@ -28,8 +28,12 @@
 修改方法：
 1、
 在service文件中添加 
+
+```
 [service]
 LimitNOFILE=100000
+```
+
 reload 
 systemctl daemon-reload
 restart service
