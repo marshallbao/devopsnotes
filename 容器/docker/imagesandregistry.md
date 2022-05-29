@@ -1,4 +1,5 @@
-​         从register服务器拉image的过程：
+从register服务器拉image的过程：
+
 • 首先获取image的manifests
 
 • 根据manifests文件中config的sha256码，得到image config文件
@@ -20,7 +21,7 @@ registry目录结构分析：
 ​            xx/
 ​                xxxxxxxxxxxxxxxxxxxxxx/
 ​                    /data
-   
+
 ​    /repositories/
 ​        project_name/
 ​            images_name/
@@ -50,8 +51,9 @@ docker image overlay2存储引擎目录分析：
     MergedDir:所有镜像层得统一视图；
     UpperDir:可读可写层
     WorkDir:
-    
-    
+
+
+​    
     3层镜像目录分析：
         LowerDir:/overlay2/只读层idxxx2/diff/
                      /overlay2/只读层idxx1/diff/                     ：1 2 都是普通的只读层
@@ -66,7 +68,7 @@ docker image overlay2存储引擎目录分析：
          MergedDir:可读可写层idxxx4/merged
          UpperDir:可读可写层idxxx4/diff
          WorkDir:可读可写层idxxx4/work
-         
+
 
 ​       
 ​       

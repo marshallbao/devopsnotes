@@ -1,0 +1,30 @@
+cat  > tableau.conf << EOF
+stream {
+  upstream tableau {
+    hash \$remote_addr consistent;
+    server 10.120.14.113:80 weight=5 max_fails=3 fail_timeout=30s;
+  }
+  server {
+    listen 81 so_keepalive=on;
+    proxy_connect_timeout 10s;
+    proxy_timeout 300s;
+    proxy_pass tableau;
+  }
+}
+EOF
+
+
+
+cat  > tableau7.conf << EOF
+server{
+  listen 81;
+  server_name 127.0.0.1;
+
+  location / {
+    proxy_pass  http://10.120.14.113:80;
+    proxy_set_header Host \$proxy_host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+  }
+}
+EOF
