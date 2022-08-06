@@ -1,4 +1,5 @@
-​         kubectl配置
+ kubectl配置
+
 config文件内容:
 
 apiVersion: v1
