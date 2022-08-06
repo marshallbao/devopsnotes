@@ -1,4 +1,4 @@
-​         lsof(list open files)是一个列出当前系统打开文件的工具
+lsof(list open files)是一个列出当前系统打开文件的工具
 
 lsof
 COMMAND     PID        USER   FD      TYPE             DEVICE SIZE/OFF       NODE NAME
@@ -30,7 +30,7 @@ lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
   hostaddr --> IPv4地址
   service --> /etc/service中的 service name (可以不止一个)
   port --> 端口号 (可以不止一个)
-  
+
 实用命令
 lsof `which httpd` //那个进程在使用apache的可执行文件
 lsof /etc/passwd //那个进程在占用/etc/passwd
@@ -50,7 +50,7 @@ lsof -i -U //显示所有打开的端口和UNIX domain文件
 lsof -i UDP@[url]www.akadia.com:123 //显示那些进程打开了到www.akadia.com的UDP的123(ntp)端口的链接
 lsof -i tcp@ohaha.ks.edu.tw:ftp -r //不断查看目前ftp连接的情况(-r，lsof会永远不断的执行，直到收到中断信号,+r，lsof会一直执行，直到没有档案被显示,缺省是15s刷新)
 lsof -i tcp@ohaha.ks.edu.tw:ftp -n //lsof -n 不将IP转换为hostname，缺省是不加上-n参数
-  
+
   
 
 恢复删除的文件/删除文件空间未释放
