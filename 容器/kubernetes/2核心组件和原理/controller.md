@@ -1,4 +1,4 @@
-​         ![file://c:\users\baoyon~1\appdata\local\temp\tmpvkyh4o\1.png](controller.assets/1.png)
+![file://c:\users\baoyon~1\appdata\local\temp\tmpvkyh4o\1.png](controller.assets/1.png)
 
 如上图所示，左侧是一个 Informer，它的机制就是通过去 watch kube-apiserver，而 kube-apiserver 会去监督所有 etcd 中资源的创建、更新与删除。Informer 主要有两个方法：一个是 ListFunc；一个是 WatchFunc。
 • ListFunc 就是像 "kuberctl get pods" 这类操作，把当前所有的资源都列出来；

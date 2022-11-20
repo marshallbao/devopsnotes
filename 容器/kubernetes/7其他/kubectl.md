@@ -26,3 +26,11 @@ users:
 ```
 
 kubectl使用
+
+
+
+
+
+
+
+![file://c:\users\baoyon~1\appdata\local\temp\tmpvkyh4o\6.png](kubectl.assets/6.png)

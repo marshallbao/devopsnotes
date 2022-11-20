@@ -1,4 +1,5 @@
-​         mesos的核心架构：
+mesos的核心架构：
+
   ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\1.png](Untitled.assets/1.png)
 ​    
 ​    
