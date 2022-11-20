@@ -1,4 +1,6 @@
 kubectl config
+=======
+ kubectl配置
 
 config文件内容:
 
