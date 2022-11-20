@@ -53,25 +53,20 @@ docker image overlay2存储引擎目录分析：
     WorkDir:
 
 
-​    
-    3层镜像目录分析：
-        LowerDir:/overlay2/只读层idxxx2/diff/
-                     /overlay2/只读层idxx1/diff/                     ：1 2 都是普通的只读层
-       MergedDir:只读idxxx3/merged                               :3层的merged是所有镜像曾的统一视图；也是只读的
-       UpperDir:只读层idxxx3/diff
-       WorkDir: 只读层idxxx3/work
-     3层镜像启动的容器目录分析：
-         LowerDir:/overlay2/只读层idxxx4-init/diff              ：启动容器后，会在最上层的可读层，增加一个可读可写层 4层，同样merged是统一视图；
-                        /overlay2/只读层idxxx3/diff                    diff是存放数据；work暂时还不清楚
-                      /overlay2/只读层idxxx2/diff                     docker还会增加一层xxx-init只读层；
-                     /overlay2/只读层idxx1/diff                         删除掉容器后，可读可写层和xxx-init层会被删除，其他不变；
-         MergedDir:可读可写层idxxx4/merged
-         UpperDir:可读可写层idxxx4/diff
-         WorkDir:可读可写层idxxx4/work
-
-
-​       
-​       
+​    3层镜像目录分析：
+​        LowerDir:/overlay2/只读层idxxx2/diff/
+​                     /overlay2/只读层idxx1/diff/                     ：1 2 都是普通的只读层
+​       MergedDir:只读idxxx3/merged                               :3层的merged是所有镜像曾的统一视图；也是只读的
+​       UpperDir:只读层idxxx3/diff
+​       WorkDir: 只读层idxxx3/work
+​     3层镜像启动的容器目录分析：
+​         LowerDir:/overlay2/只读层idxxx4-init/diff              ：启动容器后，会在最上层的可读层，增加一个可读可写层 4层，同样merged是统一视图；
+​                        /overlay2/只读层idxxx3/diff                    diff是存放数据；work暂时还不清楚
+​                      /overlay2/只读层idxxx2/diff                     docker还会增加一层xxx-init只读层；
+​                     /overlay2/只读层idxx1/diff                         删除掉容器后，可读可写层和xxx-init层会被删除，其他不变；
+​         MergedDir:可读可写层idxxx4/merged
+​         UpperDir:可读可写层idxxx4/diff
+​         WorkDir:可读可写层idxxx4/work
 registry目录结构分析：
 /blbos:存放每层数据以及一个镜像的manifests信息的具体文件,其中data中存放的是真实的数据信息
 /repositories:存放镜像仓库中的镜像的组织信息

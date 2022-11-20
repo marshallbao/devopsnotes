@@ -1,11 +1,9 @@
-         docker 入门
+### docker 入门
 
-
-1、容器技术原理
+### 1、容器技术原理
 
 
  LXC:LinuX Container
-
 
  主机级虚拟化：VMware station
   Type-I:硬件-->虚拟机管理器-->虚拟机
@@ -22,165 +20,128 @@
 
  主流的三种容器编排工具：
 
-
  machine+swarm+compose
  mesos+marathon
  kubemetes 
 
+### 2、Docker 基础用法
 
-2、Docker基础用法
+#### 镜像
+
+```
+下载镜像
+docker pull images-name:tag（不加版本号默认为latest）
+
+上传镜像
+docker push image
+
+登陆镜像仓库
+docker login -u -p
+
+登出
+docker logout
+
+查看
+docker images
+	-q：只显示镜像ID
+删除镜像
+docker rmi images 
+
+打包
+docker save -o imgage.tar imgage
+
+解压
+docker load -i image.tar
+
+tag
+docker tag ubuntu:15.10 runoob/ubuntu:v3
+```
+
+#### 镜像 run 容器
 
 
- 安装：
-
-
- docker-ee<-->Docker Enterprise Edition:docker 企业版
- docker-ce<-->docker Community Edition:docker社区版
-
-
- yum install  docker-ce -y
-
-
- 配置文件：/etc/docker/daemon.conf
-
-
- docker镜像加速器
-  docker cn
-  阿里云加速器
-  中国科技大学
-
-  {
-  "registry-mirrors":{"httpls://registry.docker-cn.com"}
-  }
-
- 命令：
-  docker  version :查看版本信息
-  docker info ：查看相关信息
-
-  镜像：
-
-
-   下载：docker pull images-name:版本号（不加版本号默认为latest）
-
-   上传：docker push image :将本地镜像上传至镜像仓库（上传之前需登陆镜像仓库）
-
-   登陆：docker login -u -p ：登陆镜像仓库
-
-   登出：docker logout    ：退出
-
-   查看：docker images
-       image ls
-     -q：只显示镜像ID
-     -a:显示本地所有镜像
+     docker run -it images
      
-   run:
-    docker run image：运行镜像成为容器；
-     -d: 后台运行容器，并返回容器ID；
-
-
      -i: 以交互模式运行容器，通常与 -t 同时使用；
      -t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；
-
-
      -p: 端口映射，格式为：主机(宿主)端口:容器端口
-
-
      --name="test": 为容器指定一个名称；
-
-
      -e username="ritchie": 设置环境变量；
-
-
      -m :设置容器使用内存最大值；
-
-
      --net="bridge": 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；
-
-
      --expose=[]: 开放一个端口或一组端口；
-     
      --rm:运行完后自动删除
-     
-     \-
-      run 选项还有很多，等用到后再总结
-      
-    docker run --name tinyweb1 --rm  tinyhttpd:v0.1-1 cat /data/web/html/index.html 
-    docker run --name tinyweb1 --rm -it tinyhttpd:v0.1-2 ls /etc/yum.repos.d/
-    docker run --name tinyweb1 --rm -P tinyhttpd:v0.1-7 ls /usr/local/src/
+
+####   容器
+
+```
+查看
+docker ps 
+-a 查看所有容器
+
+启动/停止/重启
+docker start|stop|restart  container
+
+暂停|恢复
+docker pause|unpause container
+
+杀死
+docker kill container
+
+删除
+docker rm container
+  -f :通过SIGKILL信号强制删除一个运行中的容器
+  -v :删除与容器关联的卷
+进入
+docker exec -it container sh
+docker attach container
+
+日志
+ docker logs  -f --tail 200 container
+
+导出
+docker export containerId >images.tar
+
+导入
+cat images.tar | docker import - images:tag
+
+commit
+docker commit  a404c6c174a2  mymysql:v1 
+
+```
+
+docker save 和docker export以及docker commit的区别
+1. docker save保存的是镜像（image），docker export保存的是容器（container）
+2. docker load用来载入镜像包，docker import用来载入容器包，但两者都会恢复为镜像
+3. docker load不能对载入的镜像重命名，而docker import可以为镜像指定新名称
+4. docker save 没有丢失镜像的历史，可以回滚到之前的层（layer）.docker export 会丢失镜像的历史（变成了1层）,回滚方法：(docker tag <LAYER ID> <IMAGE NMME>)
+5. docker commit 就是将container当前的读写层保存下来，保存成一个新层,加上只读层做成一个新镜像（比之前的镜像多了一层）
+
+#### 其他
+
+```
+获取容器/镜像的元数据
+docker inspect container|image
+
+查看容器资源使用状态
+docker stats 
 
 
-​      
-   删除：docker rmi images-name：删除镜像,只有容器删除了才能删除镜像
-​     
-      docker rmi --force `docker images | grep xxx | awk '{print $3}'`#按找关键字批量删除镜像
-
-   其他：docker save image：将镜像保存为文件
-     -o:输出到文件
-      docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3
-      
-      docker load xxx.tar：导入使用 docker save 命令导出的镜像
-     -i:指定导出的文件
-      docker load -i ubuntu.tar
-      
-      docker export container:导出容器
-      docker export ubuntu > myubuntu.tar
-      
-      docker import：导入容器
-      docker import myubuntu.tar
-    
-      区别：
-      export 导出（import导入）是根据容器拿到的镜像，再导入时会丢失镜像所有的历史，所以无法进行回滚操作；
-      而save保存（load加载）的镜像，没有丢失镜像的历史，可以回滚到之前的层（layer）
-       
-      docker tag:打标签（标记本地镜像，将其归入某一仓库）
-      docker tag ubuntu:15.10 runoob/ubuntu:v3
-
-   
+```
 
 
-  容器:
-
-   查看：docker ps 
-     -a：查看所有容器
-   操作：
-    开始:
-     docker start|stop|restart  container
-    
-    暂停：
-     docker pause|unpause container:暂停|恢复容器中所有的进程
-    
-    杀死：
-     docker kill container:杀死容器（不能stop的时候使用）
-     
-    删除：
-     docker rm container:删除容器
-      -f :通过SIGKILL信号强制删除一个运行中的容器
-      -v :删除与容器关联的卷
-     docker rm $(docker ps -a -q)：批量删除运行的容器
-    连接：
-     docker exec -it container sh：进入交互模式执行命令，优先使用
-     docker attach container：连接正在运行的容器
-
-   信息：
-    元数据：
-     docker inspect container|image ：获取容器/镜像的元数据
-    
-    日志：
-     docker logs  -f --tail 200 container :查看容器日志信息
-     
-    端口：
-    
-    top:
 
 
-​    
-   转换：
-​    前后台转换：前-->后ctrl+p + ctrl+q（可以理解为挂起后退出，实际上不用，直接exit退出就可以）
-​    
 
-  
 
-  
+
+
+
+
+
+
+
+
 
 3、Docker镜像相关
 
@@ -496,7 +457,6 @@
 
   docker-compose ？？之间的关系
 
-
 7、Docker的系统资源限制及验正
 
 
@@ -525,8 +485,3 @@
  容器安全方面 
 
 
-
-
-
-
-docker 进阶

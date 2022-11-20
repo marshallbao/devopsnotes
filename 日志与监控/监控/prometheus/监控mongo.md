@@ -1,9 +1,10 @@
 1、新建监控账号
 
 ```
+use admin
 db.createUser({ 
     user: "mongodb_exporter",
-    pwd: "exporterpassword",
+    pwd: "exporterPassword",
     roles: [
         { role: "readAnyDatabase", db: "admin" },
         { role: "clusterMonitor", db: "admin" }

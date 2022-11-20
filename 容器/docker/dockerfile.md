@@ -1,4 +1,4 @@
-​         Dockerfile
+## Dockerfile
 
 FROM
 指定基础镜像
@@ -111,6 +111,7 @@ docker load -i web.tar
 
 cache
 遍历本地所有镜像，发现镜像与即将构建出的镜像一致时，将找到的镜像作为 cache 镜像，复用 cache 镜像作为构建结果。
+
 第一次
 FROM ubuntu:14.04
 WORKDIR /app
