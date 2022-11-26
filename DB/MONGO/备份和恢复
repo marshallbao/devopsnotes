@@ -1,10 +1,12 @@
 ## 方式
 
-逻辑备份，mongodump & mongorestore，可以支持单个库、单个collection，也支持条件查询备份，比较灵活通常用于数据量比较少的场景
+逻辑备份：mongodump & mongorestore，可以支持单个库、单个collection，也支持条件查询备份，比较灵活通常用于数据量比较少的场景
 
 注意：mongodump  不会备份索引，只会备份索引的元数据，只有在恢复的时候才会重建索引
 
-物理备份，备份整块磁盘或者磁盘快照，通过用于云服务或者数据量大的场景
+物理备份：通过 copy 物理文件或者备份整块磁盘/磁盘快照，通过用于云服务或者数据量大的场景
+
+第三方备份工具：
 
 ### 备份前
 
@@ -27,7 +29,15 @@ mongodump -h localhost -d logs -u recorder -p "recorderpassword" --out /opt/
 mongodump -h localhost -d sync-iris -u root --authenticationDatabase=admin --gzip --out 
 ```
 
+--oplog
 
+使用此选项可确保 mongodump 创建包含oplog的数据库转储，以创建 mongod 实例状态的时间点快照。要还原到特定的时间点备份，请将使用此选项创建的输出与mongorestore --oplogReplay 结合使用
+
+--forceTableScan 
+
+会强制扫描表不使用快照
+
+如果需要创建某一时间点的快照，则使用选项`--oplog`，该选项不能与选项`--query`一起使用。
 
 ###### mongorestore
 
