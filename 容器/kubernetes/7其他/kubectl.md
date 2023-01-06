@@ -29,8 +29,57 @@ kubectl使用
 
 
 
-
-
-
-
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpvkyh4o\6.png](kubectl.assets/6.png)
+
+
+
+### kubectl 插件管理工具 krew
+
+安装
+
+```
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+```
+
+
+
+离线安装
+
+```
+# 下载 yaml 文件
+https://github.com/kubernetes-sigs/krew-index/blob/master/plugins/krew.yaml
+
+# 查看krew.yaml  获取krew安装包地址
+cat krew.yaml|grep krew-linux_amd64
+          <td id="LC53" class="blob-code blob-code-inner js-file-line">  - <span class="pl-ent">uri</span>: <span class="pl-s">https://github.com/kubernetes-sigs/krew/releases/download/v0.4.3/krew-linux_amd64.tar.gz</span></td>
+
+# 下载安装包
+https://github.com/kubernetes-sigs/krew/releases/download/v0.4.3/krew-linux_amd64.tar.gz
+
+# 解压安装
+tar -xf krew-linux_amd64.tar.gz
+./krew-linux_amd64 install --manifest=krew.yaml --archive=krew-linux_amd64.tar.gz
+
+# 配置环境变量
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# 验证
+kubectl krew  -h
+```
+
+参考
+
+https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+
+https://www.jianshu.com/p/4238dd05f143
+
+使用
+

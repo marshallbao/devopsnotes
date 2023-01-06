@@ -31,13 +31,25 @@ mongodump -h localhost -d sync-iris -u root --authenticationDatabase=admin --gzi
 
 --oplog
 
-使用此选项可确保 mongodump 创建包含oplog的数据库转储，以创建 mongod 实例状态的时间点快照。要还原到特定的时间点备份，请将使用此选项创建的输出与mongorestore --oplogReplay 结合使用
+如果需要创建某一时间点的快照，则使用选项`--oplog`，该选项不能与选项`--query`一起使用。
+
+使用此选项可确保 mongodump 创建包含oplog的数据库转储，以创建 mongod 实例状态的时间点快照。要还原
+
+到特定的时间点备份，请将使用此选项创建的输出与 mongorestore --oplogReplay 结合使用
+
+使用该选项无法指定 库和collection，只能导出全部数据。
+
+
 
 --forceTableScan 
 
-会强制扫描表不使用快照
+mongodump 默认使用 snapshot，会通过扫描 _id 索引，然后去读取实际的文档，这会产生大量的随机读
 
-如果需要创建某一时间点的快照，则使用选项`--oplog`，该选项不能与选项`--query`一起使用。
+TableScan 会按照 mongodb 的物理存储顺序进行扫描，没有读取index的过程
+
+tablescan 潜在的问题是，如果一个文档在 dump 的过程中移动了（物理上），有可能会最终输出两次
+
+注意：已弃用，因为这是 WiredTiger 上的默认行为
 
 ###### mongorestore
 

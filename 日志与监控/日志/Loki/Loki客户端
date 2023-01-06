@@ -1,0 +1,14 @@
+Loki 客户端
+
+导出日志
+
+```
+# 配置 Loki server 地址
+export LOKI_ADDR=http://a60d63214c0aa45b699c4ba4e7391c8c-28ead2370bf3e800.elb.cn-northwest-1.amazonaws.com.cn:3100
+# 导出
+./logcli-linux-amd64 query '{ app="open-api"}'  --from="2022-06-18T02:00:00Z"  --to="2022-06-18T09:00:00Z" --limit=50000000 >open-api.log
+```
+
+参考
+
+https://grafana.com/docs/loki/next/tools/logcli/

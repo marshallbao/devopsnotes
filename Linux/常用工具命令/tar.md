@@ -1,4 +1,4 @@
-​         
+
 1、压缩、解压缩命令
 
 zip<-->unzip
@@ -38,6 +38,8 @@ tar
     -z:通过gzip压缩/解压的文件 .tar.gz
     -f:filename 接要被处理的文件
     -C:指定解压缩的目录
+
+​     --exclude=xxx ：排除某个文件或者目录
 
 压缩格式：gz,bz2,xz,zip,
 
