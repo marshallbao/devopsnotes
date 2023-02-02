@@ -1,11 +1,15 @@
-​         jdk 1.8+tomcat7  
-
+### jdk 1.8+tomcat7  
 
 1、日志路径需要建立软连接
+
 2、/etc/profile环境变量添加
+
 3、服务启动路径变更（/www/）；server.xml修改确认
+
 4、jvm参数变更（更改tomcat7启动脚本） max 内存  3/4 16 12288
+
 5、日志切割脚本 cronolog
+
 6、添加开机启动
 
 
@@ -17,7 +21,6 @@ scp /data/tools/tomcat+jdk.tar root@10.200.1.2:/opt/
 
 
 jdk
-
 
 解压：
 rpm -ivh jdk-8u101-linux-x64.rpm;
@@ -55,7 +58,6 @@ cp /usr/sbin/cronolog /usr/local/sbin/;
 开机自启：
 chkconfig --add tomcat7;chkconfig tomcat7 on；
 
-
 修改JVM:
 vim /etc/init.d/tomcat7；
 JAVA_OPTS="$JAVA_OPTS -server -Xms1024m -Xmx12288m   #为机器内存的2/3
@@ -69,7 +71,7 @@ bin/catalina.sh
 server.xml
 <Host name="localhost"  appBase="/www/mobanker/webapps"
             unpackWARs="true" autoDeploy="true">
-   
+
 测试：
 curl http://ip:port
 

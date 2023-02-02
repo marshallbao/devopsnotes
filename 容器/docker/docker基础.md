@@ -1,5 +1,3 @@
-### docker 入门
-
 ### 1、容器技术原理
 
 
@@ -135,7 +133,39 @@ docker stats
 
 
 
+### 3、docker 安装
 
+centos
+
+```
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+                  
+#
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+    
+#
+sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+#
+yum list docker-ce --showduplicates | sort -r
+
+#
+sudo yum install docker-ce-18.06.0.ce-3.el7 docker-ce-cli-18.06.0.ce-3.el7 containerd.io docker-compose-plugin
+```
+
+参考
+
+https://docs.docker.com/engine/install/
 
 
 
@@ -484,6 +514,3 @@ docker stats
 
  容器安全方面 
 
-docker 安装
-
-https://docs.docker.com/engine/install/
