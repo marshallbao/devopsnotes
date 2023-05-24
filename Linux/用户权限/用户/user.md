@@ -16,7 +16,8 @@ groupadd mongod
 useradd -g mongod -M -s /sbin/nologin mongod
 
 普通用户
-useradd -g root -m -d  /home/yonggui -s /bin/bash yonggui
+groupadd yonggui
+useradd -g yonggui -m -d  /home/yonggui -s /bin/bash yonggui
 
 
 

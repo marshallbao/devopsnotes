@@ -1,4 +1,4 @@
-### 私钥生成
+### 密钥生成
 
 RSA：RSA加密算法是一种非对称加密算法
 
@@ -17,17 +17,19 @@ ssh-keygen -t rsa -C "yonggui" -f ~/.ssh/test/crm-git
 
 
 
-### 私钥登录
+### 登录认证过程
 
-登录认证过程：
 主机认证，一次就可以了，就是第一次链接主机提示 yes/no
-用户认证，有公钥密码等多种认证方式；
+
+用户认证，有密钥、密码等多种认证方式；
 
 公钥登录
+
 客户端在家目录的 .ssh 目录下生成密钥对，将公钥发送至服务端用户的家目录的 .ssh 目录下，cat id_rsa.pub >>~/.ssh/authorized_keys
 
 私钥登录
-服务端生成密钥对，将私钥发送至客户端，cat id_rsa >> ~/.ssh/id_rsa(或者是重命名私钥文件为id_rsa-nyancat-gke，然后在客户端的ssh_config中声明IdentityFile ~/.ssh/id_rsa-nyancat-gke)
+
+服务端生成密钥对，将私钥发送至客户端，cat id_rsa >> ~/.ssh/id_rsa(或者是重命名私钥文件为id_rsa-nyancat-gke，然后在客户端的 ssh_config 中声明 IdentityFile ~/.ssh/id_rsa-nyancat-gke)
 
 通过公钥或者私钥进行登录要根据实际环境进行考量（在sshd_config中将passwd认证设置为no）；
 
@@ -44,3 +46,14 @@ ssh-keygen -t rsa -C "yonggui" -f ~/.ssh/test/crm-git
 2、远程端口转发
 
 3、动态端口转发
+
+
+
+SSH 通过代理登录
+
+```
+ssh -o "ProxyCommand nc -X 5 -x 127.0.0.1:7890 %h %p" iris@35.229.237.99
+
+ssh -o ProxyCommand='nc -x <代理服务器IP地址>:<代理端口> -S <代理服务器用户名>:<代理服务器密码> %h %p' user@host
+```
+

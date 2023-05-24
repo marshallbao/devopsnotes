@@ -52,20 +52,20 @@ author: bianjie.ai
 license: (Apache-2.0)
 
 例如：
-package name：比较重要，会显示到npm仓库，不能和现有的名称重复
+package name：比较重要，会显示到 npm 仓库，不能和现有的名称重复
 version: 版本号
 license：开源协议
 
-#### 3.登录npm账号
+#### 3.登录 npm 账号
 
-打开cmd命令行，输入 npm login
+打开 cmd 命令行，输入 npm login
 分别输入用户名，密码，邮箱，如下图所示
 
 ![](C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210218141107665.png)
 
-#### 4.发布npm包到仓库
+#### 4.发布 npm 包到仓库
 
-cmd命令行执行 npm publish
+cmd 命令行执行 npm publish
 
 #### 5. 发布成功后，到npm仓库搜索package name即可查询到
 
@@ -115,4 +115,6 @@ jobs:
 
 <img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144233018.png" alt="image-20210301144233018" style="zoom:50%;" />
 
-3、创建
+4、触发 action 进行推送
+
+注意：package 的name 和version 都是从 package.json 中拿的

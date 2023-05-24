@@ -6,7 +6,7 @@ db.createUser({
     user: "mongodb_exporter",
     pwd: "exporterPassword",
     roles: [
-        { role: "readAnyDatabase", db: "admin" },
+        { role: "read", db: "local" },
         { role: "clusterMonitor", db: "admin" }
     ]
 });

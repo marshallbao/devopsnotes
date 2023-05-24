@@ -14,54 +14,38 @@ Swap空间的作用可简单描述为：当系统的物理内存不够用的时�
 
 统性能瓶颈，节省系统升级费用
 
-#### 创建并开启swap
-
-创建一个空文件，具体大小的话对于小内存机器建议为内存的两倍
+### 创建并开启swap
 
 ```
+# 创建一个空文件，具体大小的话对于小内存机器建议为内存的两倍
 sudo mkdir -v /var/cache/swap
 cd /var/cache/swap
 sudo dd if=/dev/zero of=swapfile bs=1024M count=32
 sudo chmod 600 swapfile
+
+# 将新建的文件转换为 swap 文件.
+sudo mkswap swapfile
+
+# 启用 swap.
+sudo swapon swapfile
+
+# 将该分区设置成开机加载
+echo "/var/cache/swap/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
+
+# 在线关闭
+swapoff -a
+
+# 禁用 swap 
+sudo swapoff swapfile
+
+# 去掉开机加载
+修改 /etc/fstab 文件
+
+# 查看 swap
+swapon -s
 ```
 
 
-
-### 将新建的文件转换为 swap 文件.
-
-sudo mkswap swapfile
-
-### 开启 swap.
-
-sudo swapon swapfile
-
-### 通过 swapon 或者 top 命令进行验证:
-
-swapon -s
-
-### 或者
-
-top -bn1 | grep -i swap
-
-
-
-### 禁用 swap 
-
-sudo swapoff swapfile
-
-### 将该分区设置成开机加载
-
-echo "/var/cache/swap/swapfile none swap defaults 0 0" | sudo tee -a /etc/fstab
-
-#### 关闭swap
-
-在线关闭
-
-swapoff -a
-
-永久关闭
-
-修改 /etc/fstab 文件
 
 参考：
 

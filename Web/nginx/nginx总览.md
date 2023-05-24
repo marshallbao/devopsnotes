@@ -159,6 +159,7 @@ nginx支持的几个指令上下文：
 
 配置文件
 
+```
 nginx文件结构
 ...              #全局块
 
@@ -187,6 +188,7 @@ http      #http块
     }
     ...     #http全局块
 }　　
+```
 
 nginx配置文件架构的图
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\3.png](nginx.assets/3.png)

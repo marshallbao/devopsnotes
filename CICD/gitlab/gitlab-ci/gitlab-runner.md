@@ -1,8 +1,28 @@
-​         1、下载对应gitlab版本的gitlab-runner二进制文件 放置/usr/local/bin/ 下，chmod +x gitlab-runner
-2、去gitlab生成gitlab-runner认证token
+### gitlab-runner 安装
+
+1、下载对应 gitlab 版本的 gitlab-runner 二进制文件 放置 /usr/local/bin/ 下
+
+```
+# 下载二进制
+wget https://gitlab-runner-downloads.s3.amazonaws.com/v12.4.1/binaries/gitlab-runner-linux-amd64
+chmod +x gitlab-runner
+
+# 新建用户及用户组下
+groupadd -g 1005 gitlab-runner
+useradd -m -d /home/gitlab-runner -u 1005 -g gitlab-runner gitlab-runner
+```
+
+2、去 gitlab 生成 gitlab-runner 认证token
+
 3、进行注册
-gitlab-runner register --non-interactive --url "https://gitlab.bianjie.ai/" --registration-token "yeHrRFhdEE6FVgfrzcNy" --executor "docker" --docker-image alpine:latest --description "shared-runner2"
+
+```
+gitlab-runner register --non-interactive --url "https://gitlab.bianjie.ai/" --registration-token "xxxx" --executor "docker" --docker-image alpine:latest --description "shared-runner-nj-120"
+```
+
 3、注册之后会生成/etc/gitlab-runner/config.toml配置文件
+
+```
 root@LAPTOP-8P8KN0QD:/etc/gitlab-runner# cat config.toml
 concurrent = 1
 check_interval = 0
@@ -12,7 +32,7 @@ check_interval = 0
 
 [[runners]]
   name = "shared-runner2"
-  url = "[https://gitlab.bianjie.ai/"](https://gitlab.bianjie.ai/)
+  url = "[https://gitlab.bianjie.ai/"]
   token = "mHcXcMzS_xx_fZrAGXio"
   executor = "docker"
   [runners.custom_build_dir]
@@ -28,30 +48,33 @@ check_interval = 0
   [runners.cache]
     [runners.cache.s3]
     [runners.cache.gcs]
+```
 
 4、配置
-    新建用户及用户组下·
-        groupadd -g 1005 gitlab-runner
-        useradd -d  /home/gitlab-runner -u 1005 -g gitlab-runner gitlab-runner
-    新建service文件
-        [root@dev01 ~]# cat /lib/systemd/system/gitlab-runner.service
-        [Unit]
-        Description=GitLab Runner
-        After=syslog.target network.target
-        ConditionFileIsExecutable=/usr/local/bin/gitlab-runner
 
-​        [Service]
-​        StartLimitInterval=5
-​        StartLimitBurst=10
-​        ExecStart=/usr/local/bin/gitlab-runner "run" "--working-directory" "/home/gitlab-runner" "--config" "/etc/gitlab-runner/config.toml" "--service" "gitlab-runner" "--syslog" "--user" "gitlab-runner"
+```
+# 新建service文件
+[root@dev01 ~]# cat /lib/systemd/system/gitlab-runner.service
+[Unit]
+Description=GitLab Runner
+After=syslog.target network.target
+ConditionFileIsExecutable=/usr/local/bin/gitlab-runner
 
-​        Restart=always
-​        RestartSec=120
+[Service]
+StartLimitInterval=5
+StartLimitBurst=10
+ExecStart=/usr/local/bin/gitlab-runner "run" "--working-directory" "/home/gitlab-runner" "--config" "/etc/gitlab-runner/config.toml" "--service" "gitlab-runner" "--syslog" "--user" "gitlab-runner"
 
-​        [Install]
-​        WantedBy=multi-user.target
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target
+```
 
 4、启动
-        systemctl enable gitlab-runner && systemctl start gitlab-runner
-    
-参考：http://www.coder55.com/article/4966
+ systemctl daemon-reload && systemctl enable gitlab-runner && systemctl start gitlab-runner
+
+### 参考
+
+http://www.coder55.com/article/4966
