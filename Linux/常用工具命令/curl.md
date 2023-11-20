@@ -55,6 +55,7 @@ curl -I -v https://www.baidu.com
 ```
 # 默认 Content-Type:text/plain
 curl -X "POST" -d “interfaceCode=b5018a&pid=92b01a820" https://act.vip.iqiyi.com/api/process.action
+
 # 指定请求头 Content-Type:application/json
 curl -XPOST -H "Content-Type:application/json" -d '{"downloadUrl": "https://d.bianjie.ai/A-Bank.apk"}' http:// 218.2.111.130:13000/reinforce
 ```

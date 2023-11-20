@@ -28,7 +28,7 @@ https://github.com/acheong08/ChatGPT
 # 8. 模拟官网的只支持一个模型，但是是模仿最像的
 https://github.com/mckaywrigley/chatbot-ui
 
-# 9. 也是一个很不错的页面，需要自己提供key,但是不用翻墙
+# 9. 也是一个很不错的页面，需要自己提供key,但是不用翻墙（上下文有问题）
 https://chatgpt.nextweb.fun/
 ```
 

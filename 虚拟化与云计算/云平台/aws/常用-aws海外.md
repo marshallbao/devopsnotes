@@ -18,9 +18,11 @@ https://calculator.aws/#/
 
 3、CNI 插件需要配置权限，将 AmazonEKS_CNI_Policy 附加到已与您的工作线程节点关联的 IAM 角色即AmazonEKSNodeRole 角色（如果第二步做了那这步就不需要了）
 
-对于 3 最好的做法是，建议使用针对服务账户的 IAM 角色仅为 VPC CNI 插件提供其所需的权限，而不向节点 IAM 角色提供扩展权限。参考 https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/cni-iam-role.html
+对于 3 最好的做法是，建议使用针对服务账户的 IAM 角色仅为 VPC CNI 插件提供其所需的权限，而不向节点 IAM 角色提供扩展权限。参考 https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/cni-iam-role.htm
 
 4、EBS CSI 驱动需要创建角色并通过 annotations 绑定至 EBS CSI 对应的 sa ，从而获得权限
+
+5、 ingress LB 一定要选择4层 的lb 即 nlb
 
 #### 参考
 

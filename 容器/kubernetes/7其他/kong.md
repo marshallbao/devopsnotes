@@ -148,3 +148,10 @@ type: Opaque
 
 ```
 
+http 跳转 https
+
+```
+      konghq.com/protocols: https
+      konghq.com/https-redirect-status-code: "301"
+```
+

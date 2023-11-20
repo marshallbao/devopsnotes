@@ -1,11 +1,11 @@
 ## docker环境使用nvidiaGPU，并搭建CUDA计算平台
 
-### 1、nvidia驱动的安装
+### 1、nvidia 驱动的安装
 $lspci |grep -i nvidia  //查看显卡型号
 登录nvidia官网，根据显卡型号下载显卡驱动
 安装显卡驱动
 
-2、安装docker（nvidia-docker）
+2、安装 docker（nvidia-docker）
 直接配置yum源
 yum install docker即可；
 Docker 19.03开始直接支持gpu,使用--gpus=x，选项即可使用gpu;
@@ -26,8 +26,8 @@ yum install nvidia-driver
 
 测试：nvidia-smi
 
-2、安装nvidia-docker2
-根据docker版本18.06.3，安装nvidia-docker2
+2、安装 nvidia-docker2
+根据 docker 版本 18.06.3，安装 nvidia-docker2
 （测试版,以稳定版为主）
 nvidia-docker2-2.4.0-1.docker18.06.3.ce.noarch.rpm
 nvidia-container-runtime-3.3.0-1.docker18.06.3.x86_64.rpm
@@ -71,7 +71,7 @@ EOF
 
 
 
-主机安装cuda10.2
+主机安装 cuda10.2
 ----------------------------------------------
 如果在主机上直接搭建cuda平台，可直接下载cuda rpm包，进行安装，因为cuda安装包内含nvidia驱动，可提前将机器上的nvidia驱动删除；
 
@@ -155,6 +155,7 @@ yum install cuda
 	--env "NVIDIA_DRIVER_CAPABILITIES=compute,utility" \
 	--env "NVIDIA_REQUIRE_CUDA=cuda&gt;=9.0" \
 	
+
 	cuda的安装目录是/usr/local/cuda-9.0
 	基础镜像+python+cuda+PyTorch或者tensorflow依赖包
 

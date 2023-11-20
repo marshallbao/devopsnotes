@@ -14,6 +14,8 @@ useradd -m -d /home/gitlab-runner -u 1005 -g gitlab-runner gitlab-runner
 
 2、去 gitlab 生成 gitlab-runner 认证token
 
+
+
 3、进行注册
 
 ```
@@ -33,7 +35,7 @@ check_interval = 0
 [[runners]]
   name = "shared-runner2"
   url = "[https://gitlab.bianjie.ai/"]
-  token = "mHcXcMzS_xx_fZrAGXio"
+  token = "xxxxxx"
   executor = "docker"
   [runners.custom_build_dir]
   [runners.docker]
@@ -73,7 +75,12 @@ WantedBy=multi-user.target
 ```
 
 4、启动
- systemctl daemon-reload && systemctl enable gitlab-runner && systemctl start gitlab-runner
+
+```
+systemctl daemon-reload && systemctl enable gitlab-runner && systemctl start gitlab-runner
+```
+
+
 
 ### 参考
 

@@ -14,7 +14,7 @@ systemctl enable  nfs  && systemctl start nfs
 
 ```shell
 vim /etc/exports
-/opt/dev        *(rw,async,no_root_squash)
+/opt/dev        *(rw,sync,all_squash)
 ```
 
 4、生效配置

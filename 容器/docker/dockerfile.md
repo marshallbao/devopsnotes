@@ -65,7 +65,7 @@ ENTRYPOINT
 1.ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
 2.ENTRYPOINT command param1 param2 (shell form)用法1（推荐）
 FROM centos
-CMD ["p in cmd"]
+CMD ["pin cmd"]
 ENTRYPOINT ["echo"]docker run web p in run
 如果run命令后面有东西，那么后面的全部都会作为entrypoint的参数。如果run后面没有额外的东西，但是cmd有，那么cmd的全部内容会作为entrypoint的参数，这同时是cmd的第二种用法
 
@@ -73,7 +73,7 @@ ENTRYPOINT ["echo"]docker run web p in run
 
 
 用法2
- CMD ["p in cmd"]
+ CMD ["ping cmd"]
  ENTRYPOINT echo这种模式，run和cmd参数都无法传入，一般不用；
 entrypoint是容器的入口必执行的,只有最后一条生效； 无论你用的是ENTRYPOINT还是CMD命令, 都建议采用exec表示法
 

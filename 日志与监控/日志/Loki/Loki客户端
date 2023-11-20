@@ -4,10 +4,22 @@ Loki 客户端
 
 ```
 # 配置 Loki server 地址
-export LOKI_ADDR=http://a60d63214c0aa45b699c4ba4e7391c8c-28ead2370bf3e800.elb.cn-northwest-1.amazonaws.com.cn:3100
+export LOKI_ADDR=http://172.30.167.13:3100
+
 # 导出
-./logcli-linux-amd64 query '{ app="open-api"}'  --from="2022-06-18T02:00:00Z"  --to="2022-06-18T09:00:00Z" --limit=50000000 >open-api.log
+./logcli-linux-amd64 query  --from="2022-06-18T02:00:00Z"  --to="2022-06-18T09:00:00Z" --limit=50000000 '{ app="open-api"}' >open-api.log
+
+./logcli-linux-amd64 query  --addr=http://172.30.167.13:3100 '{ app="open-api"}' >open-api.log
+
+# 注意
+--from --to 是用的 UTC 时间，如果你想打印 2023-09-02 00:00:00 到 2023-09-03 00:00:00 的日志，你要配置参数  --from="2023-09-01T16:00:00Z"  --to="2023-09-02T16:00:00Z"
+
+--timezone=Local/UTC 只是打印出来的时间，和 --from --to 没关系，默认 --timezone=Local
+
+
 ```
+
+
 
 参考
 

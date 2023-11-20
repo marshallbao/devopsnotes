@@ -156,7 +156,6 @@ jute.maxbuffer
 
 ### 登陆zookeeper：
 
-
 **zkCli.sh -server ip :port**
 本机的话 直接**zkCli.sh**就可以；
 
@@ -164,7 +163,7 @@ jute.maxbuffer
 
 ### zookeeper命令行操作：
 
-
+```
 Zookeeper -server host:port cmd args
     stat path [watch]
     set path data [version]
@@ -187,6 +186,7 @@ Zookeeper -server host:port cmd args
     getAcl path
     close
     connect host:port
+```
 
 **系统命令行操作**
 ZK常用四字命令
@@ -205,9 +205,6 @@ wchp：通过路径列出服务器 watch的详细信息。它输出一个与 ses
 
 
 ## ZooKeeper Client API
-
-
-xxxxx
 
 
 
