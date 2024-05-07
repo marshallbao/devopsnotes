@@ -35,10 +35,6 @@ ssh-keygen -t rsa -C "yonggui" -f ~/.ssh/test/crm-git
 
 
 
-
-
-
-
 ### SSH 转发
 
 1、本地端口转发

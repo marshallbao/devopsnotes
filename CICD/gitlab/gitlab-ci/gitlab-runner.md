@@ -47,6 +47,7 @@ check_interval = 0
     disable_cache = false
     volumes = ["/cache"]
     shm_size = 0
+    allowed_pull_policies = ["always", "if-not-present"]
   [runners.cache]
     [runners.cache.s3]
     [runners.cache.gcs]

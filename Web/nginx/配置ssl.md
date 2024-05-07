@@ -105,13 +105,8 @@ server {
     listen 80;
     listen [::]:80;
     server_name test.jimors.me;
-    add_header alt-svc 'quic=":443"; ma=2592000; v="44,43,39"';
-    \# enforce https
-    if ($http_x_forwarded_proto = 'http') {
-        return 301 https://$host$request_uri; ##用于http全部强制跳转至https
-    }
-
-   \# return   301 https://$server_name$request_uri;##全部强制跳转也可以用这个
+    ## 强制跳转 https
+    return   301 https://$server_name$request_uri;
 
 ​    location / {
 ​        proxy_set_header X-REAL-IP $remote_addr;

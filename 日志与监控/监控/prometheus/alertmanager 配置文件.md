@@ -29,9 +29,15 @@ route: <route>
    group_interval: 5m
    group_wait: 10s
    repeat_interval: 3h
+   routes:
+   - receiver: 'discord-prod'
+     match_re:
+       cluster: app
 
 receivers:
-  - <receiver> ...
+  - name: 'default-receiver'
+    webhook_configs:
+    - url: 'http://monitor-alertmanager-webhook-dingtalk:8060/dingtalk/cloud/send'
 inhibit_rules:
   [ - <inhibit_rule> ... ]
 ```

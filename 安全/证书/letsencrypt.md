@@ -14,10 +14,77 @@ Let’s Encrypt 不控制或审查第三方客户端，也不能保证其安全�
 
 ### certbot 配置证书
 
+```
+1. 安装工具
+yum install certbot python2-certbot-nginx 
+
+2. 编辑 nginx 配置文件
+server {
+        listen       80;
+        listen       [::]:80;
+        server_name  www.veryimportanteggs.com;
+        root         /mnt/nginx/html;
+}
+3. 配置解析
+
+4. 申请证书
+certbot --nginx -d www.veryimportanteggs.com  -n  --agree-tos --preferred-challenges http --email contact@veryimportanteggs.com
+
+5. 配置定时任务
+0 1 1 * * certbot renew -q --post-hook 'systemctl reload nginx'
+
+6. 最终的nginx配置文件
+server {
+        server_name  www.veryimportanteggs.com;
+        root         /mnt/nginx/html;
+    
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.veryimportanteggs.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.veryimportanteggs.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = www.veryimportanteggs.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen       80;
+        listen       [::]:80;
+        server_name  www.veryimportanteggs.com;
+    return 404; # managed by Certbot
+
+
+}
+```
+
+certbot 其他命令
+
+```
+# 删除证书
+certbot delete --cert-name three.rushout.asia
+
+# 检查并更新证书
+certbot renew
+
+# 查看证书信息
+certbot certificates
+
+# 撤销证书
+certbot revoke
+```
 
 
 
+### 其他相似工具
+
+https://freessl.cn/
 
 ### 参考
+
+https://blog.csdn.net/v6543210/article/details/128471767
 
 https://blog.csdn.net/weixin_52851967/article/details/125960817

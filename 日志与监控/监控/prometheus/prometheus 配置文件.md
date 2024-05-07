@@ -1,4 +1,21 @@
-配置文件
+## 配置
+
+配置参数
+
+```
+  --storage.tsdb.retention.time=15d
+  --config.file=/etc/config/prometheus.yml
+  --storage.tsdb.path=/data
+  --web.console.libraries=/etc/prometheus/console_libraries
+  --web.console.templates=/etc/prometheus/consoles
+  --web.enable-lifecycle
+```
+
+
+
+### 配置文件
+
+#### prometheus.yml
 
 ```yaml
 global:
@@ -18,6 +35,7 @@ alerting:
 rule_files:
   # - "first_rules.yml"
   # - "second_rules.yml"
+  # - alerts_prometheus.yaml
 
 scrape_configs:
   - job_name: "prometheus"
@@ -39,5 +57,22 @@ scrape_configs:
       regex: 172.16.1.19:26660
       replacement: wenchuang-validator-1
 
+```
+
+alerts_prometheus.yaml
+
+```
+  alerts_prometheus.yaml: |
+    groups:
+    - name: prometheus
+      rules:
+      - alert: DeadMansSwitch
+        annotations:
+          message: Alerting DeadMansSwitch
+        expr: vector(1)
+        labels:
+          severity: none
+          cluster: prod
+          group: ops
 ```
 

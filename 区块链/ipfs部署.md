@@ -194,7 +194,7 @@ ipfs daemon
 
 其他：
 
-1、生成随机secret的命令
+1、生成随机 secret 的命令
 
 od  -vN 32 -An -tx1 /dev/urandom | tr -d ' \n' | base64 -w 0 -
 
