@@ -29,14 +29,7 @@ helm search repo  bitnami/grafana -l
 
 helm pull bitnami/grafana --version 8.4.6
 
-#
-helm upgrade api ./kong-2.32.0.tgz -f values-adb.yaml -n kong
 
-# 
-helm get manifest  ingress-nginx -n x
-
-# 
-helm get values api -n kong
 
 ```
 
@@ -48,6 +41,17 @@ helm get values api -n kong
 helm status api
 helm history api
 helm rollback api 3
+#
+helm upgrade api ./kong-2.32.0.tgz -f values-adb.yaml -n kong
+
+#
+helm uninstall api -n kong
+
+# 
+helm get manifest  ingress-nginx -n x
+
+# 
+helm get values api -n kong
 
 ```
 

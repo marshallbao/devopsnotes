@@ -9,5 +9,8 @@ esxcli hardware memory get | grep "Physical Memory" | awk '{print $3/1024/1024/1
 
 # 查看硬盘
 esxcli storage vmfs extent list
+
+# 查看资源使用情况
+esxtop
 ```
 

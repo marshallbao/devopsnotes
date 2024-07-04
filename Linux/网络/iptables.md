@@ -161,6 +161,17 @@ raw 表：关闭nat表上启用的连接追踪机制；iptable_raw
 # 查看 iptables 规则
 iptables -vnL --line-numbers
 iptables -t nat -vnL --line-numbers
+
+# 添加 filter 表规则
+iptables -A INPUT -p tcp --dport 179 -j ACCEPT
+iptables -A INPUT -p 89 -j ACCEPT
+
+# 添加 nat 表规则
+iptables -t nat -A POSTROUTING -d 10.24.0.0/16 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -d 10.5.0.0/25 -o eth0 -j MASQUERADE
+
+# 修改 FORWARD 链的默认规则为 DROP
+iptables -P FORWARD DROP
 ```
 
 

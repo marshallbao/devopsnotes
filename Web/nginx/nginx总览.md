@@ -1,7 +1,13 @@
-基础知识
+### 基础知识
 
-Nginx 是一款面向性能设计的 HTTP 服务器，能反向代理 HTTP，HTTPS 和邮件相关(SMTP，POP3，IMAP)的协议链接。并且提供了负载均衡以及 HTTP 缓存。 
-它的设计充分使用异步事件模型，削减上下文调度的开销，提高服务器并发能力。 采用了模块化设计，提供了丰富模块的第三方模块。 
+Nginx 是一款面向性能设计的 HTTP 服务器，能反向代理 HTTP，HTTPS 和邮件相关(SMTP，POP3，IMAP)的协
+
+议链接。并且提供了负载均衡以及 HTTP 缓存。 
+
+它的设计充分使用异步事件模型，削减上下文调度的开销，提高服务器并发能力。 采用了模块化设计，提供了丰
+
+富模块的第三方模块。 
+
 所以关于 Nginx，有这些标签：「异步」「事件」「模块化」「高性能」「高并发」「反向代理」「负载均衡」
 
 webserver基本功能
@@ -9,16 +15,21 @@ webserver基本功能
 
 • TCP监听模块
 服务器监听某个端口（一般默认是8080端口，用户可以设置其他端口），以建立和用户代理之间的连接。一旦建立连接，用户代理的后续HTTP请求将不用再进入监听模块。
+
 • 预处理
 此处主要做三件事：1. 从TCP报文中获取HTTP请求报文。 2. 根据和用户代理的协商进行解密，解压，安全处理等等。3. 根据服务器自身的配置进行安全处理，建立会话状态等等。
+
 • UR路由
 解析URL字符串和动作以确定用户代理请求的资源，根据匹配规则（通常根据正则表达式+后缀）路由到静态资源处理模块或动态资源处理模块。
-• 静态资源处理模块
-负责找到静态资源，比如HTML/Javascript/CSS文件/图片/图像，确定内容是字符流或者字节流，并确定对应MIME,比如HTML生成MIME为text/html的字符流，mpeg视频文件生成MIME为video/mpeg的字节流。
+
+• 静态资源处理模块负责找到静态资源，比如HTML/Javascript/CSS文件/图片/图像，确定内容是字符流或者字节流，并确定对应MIME,比如HTML生成MIME为text/html的字符流，mpeg视频文件生成MIME为video/mpeg的字节流。
+
 • 动态资源处理模块
 运行业务逻辑处理，动态决定返回的资源内容和类型，内容和类型的处理原则同上。
+
 • 后处理
 根据和用户协商的协议进行加密，压缩，安全处理等等。
+
 • 资源输出模块
 把处理好的内容和类型封装成HTTP报文，往TCP连接另一头的用户代理发送TCP报文（内容是HTTP报文）。
 
@@ -29,12 +40,16 @@ Nginx 对于事件，以异步非阻塞方式来实现。
 • 非异步(同步)：执行一个操作之后，等待结果，然后才继续执行下面的操作
 • 阻塞：给 CPU 传达任务之后，一直等待 CPU 处理完毕(即使会产生I/O)，然后才执行下面操作
 • 非阻塞：给 CPU 传达任务之后，继续处理后面的操作，隔段时间再来询问之前的操作是否完成
+
 Nginx 的异步非阻塞方式，具体到系统调用的话，就是像 select/poll/epoll/kqueue 这样的系统调用。它们提供了一种机制，让你可以同时监控多个事件，调用他们是阻塞的，但可以设置超时时间，在超时时间之内，如果有事件准备好了，就返回。 
+
 epoll 是在 Linux 上关于事件的实现，而 kqueue 是 OpenBSD 或 FreeBSD 操作系统上采用类似 epoll 的事件模型。
+
 epoll 
   该方案给是 Linux 下效率最高的 I/O 事件通知机制，在进入轮询的时候如果没有检查到 I/O 事件，将会进入休眠，直到事件将它唤醒。它是真实利用了事件通知、执行回调的方式，而不是遍历查询，所以不会浪费 CPU，执行效率较高。
 
-Nginx 处理请求过程
+### Nginx 处理请求过程
+
 1 request 请求进来 
 2 初始化 HTTP Request， 生成 HTTP Request 对象 
 3 处理请求头 
@@ -46,18 +61,20 @@ Nginx 处理请求过程
     3)  发送 response header 
     4)  发送 response body
 
-安装
+### 安装
 
-rpm安装
+rpm 安装
 yum install nginx
 
 源码安装
 略
 
-nginx进程进程管理
+### nginx 进程进程管理
 
 进程模型
+
 Nginx 的进程是使用经典的「Master-Worker」模型。Nginx在启动后，会有一个 master 进程和多个 worker 进程。
+
 • master进程主要用来管理worker进程
 • 接收来自外界的信号，向各worker进程发送信号
 • 监控worker进程的运行状态，当worker进程退出后(异常情况下)，会自动重新启动新的worker进程
@@ -66,43 +83,43 @@ worker 进程主要处理基本的网络事件，多个 worker 进程之间是�
 • 多个worker进程之间是对等的,他们同等竞争来自客户端的请求，各进程互相之间是独立的
 • 一个请求，只可能在一个worker进程中处理
 • worker进程的个数是可以设置的，一般我们会设置与机器cpu核数一致 
+
 nginx的进程模型，可以由下图来表示：
+
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\2.png](nginx.assets/2.png)
 
-
-sysV 脚本
-/etc/init.d/nginx {start|stop|restart|condrestart|try-restart|force-reload|upgrade|reload|status|help|configtest}
-/etc/init.d/nginx start
-/etc/init.d/nginx stop
-/etc/init.d/nginx restart
-/etc/init.d/nginx reload
-/etc/init.d/nginx configtest
-
-systemd 脚本
-systemctl start nginx
-systemctl stop nginx
-systemctl restart nginx
-
 命令行
-指定配置文件的启动方式 
+
+```
+# 指定配置文件的启动方式 
 nginx -c /tmp/nginx.conf 
-测试配置信息是否有错误 
+
+# 测试配置信息是否有错误 
 nginx -t 
-显示版本信息 
+
+#显示版本信息 
 nginx -v 
-显示编译阶段的参数 
+
+# 显示编译阶段的参数 
 nginx -V 
-快速停止服务 
+
+# 快速停止服务 
 nginx -s stop 
-强制停止服务，想master进程发送TERM信号 “优雅”地停止服务 
+
+# 强制停止服务，想master进程发送TERM信号 “优雅”地停止服务 
 nginx -s quit
-区别：stop时，worker进程与master进程收到信号后立刻跳出循环，退出进程；quit时，首先关闭监听端口，停止接收新的连接，然后把当前正在处理的连接全部处理完，最后退出进程。
-使运行中的nginx重读配置项并生效 
+
+# 区别: stop 时，worker 进程与 master 进程收到信号后立刻跳出循环，退出进程；
+quit时，首先关闭监听端口，停止接收新的连接，然后把当前正在处理的连接全部处理完，最后退出进程。
+
+# 使运行中的nginx重读配置项并生效 
 nginx -s reload 
-先检查新的配置项是否正确，然后以quit方式关闭，再重启 
-日志文件回滚 
-nginx -s reopen 
+
+
+# 日志文件回滚 
+nginx -s reopen
 重新打开日志文件
+```
 
 信号
 • TERM, INT Quick shutdown
@@ -112,18 +129,23 @@ nginx -s reopen
 • USR1  Reopen the log files(重读日志，可在日志切割时使用)
 • USR2  Upgrade Executable on the fly(平滑升级)
 • WINCH Gracefully shutdown the worker processes(优雅关闭旧的进程) 
+
 发信号: 
 kill 信号 MASTER_PID
 
 平滑升级Nginx
 \1. 发送USR2信号 kill -s SIGUSER2 <nginx master pid> 
+
 运行中的nginx会将pid文件重命名，在nginx.pid重命名为nginx.pid.oldbin
+
 \2. 启动新版本的nginx
+
 \3. 通过kill命令向旧版本的master进程发送SIGQUIT信号 
 显示命令行帮助
 
-nginx配置
-nginx的配置系统由一个主配置文件和其他一些辅助的配置文件构成。这些配置文件均是纯文本文件，全部位于nginx安装目录下的conf目录下。 
+### nginx 配置
+
+nginx 的配置系统由一个主配置文件和其他一些辅助的配置文件构成。这些配置文件均是纯文本文件，全部位于nginx安装目录下的conf目录下。 
 /etc/nginx/nginx.conf
 在nginx.conf中，包含若干配置项。 
 每个配置项由配置指令和指令参数2个部分构成。 指令参数也就是配置指令对应的配置值。
@@ -134,12 +156,15 @@ nginx的配置系统由一个主配置文件和其他一些辅助的配置文件
 指令参数
 指令的参数使用一个或者多个空格或者TAB字符与指令分开。指令的参数有一个或者多个TOKEN串组成。TOKEN串之间由空格或者TAB键分隔。
 
-TOKEN串
+TOKEN 串
 TOKEN串分为简单字符串或者是复合配置块。 
 如果一个配置指令的参数全部由简单字符串构成，那么我们就说这个配置指令是一个简单配置项，否则称之为复杂配置项。 
+
 对于简单配置，配置项的结尾使用分号结束。
+
 简单配置项: 
 error_page   500 502 503 504  /50x.html;
+
 复合配置块即是由大括号括起来的一堆内容。一个复合配置块中可能包含若干其他的配置指令。 
 对于复杂配置项，包含多个TOKEN串的，一般都是简单TOKEN串放在前面，复合配置块一般位于最后，而且其结尾，并不需要再添加分号。
 复杂配置项：
@@ -167,8 +192,7 @@ events {         #events块
    ...
 }
 
-http      #http块
-{
+http {      #http块
     ...   #http全局块
     server        #server块
     { 
@@ -182,17 +206,22 @@ http      #http块
             ...
         }
     }
+
     server
     {
       ...
     }
     ...     #http全局块
-}　　
+}
+
+stream {
+
+
+}
 ```
 
 nginx配置文件架构的图
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\3.png](nginx.assets/3.png)
-
 
 配置文件详解
 \#定义Nginx运行的用户和用户组
@@ -265,6 +294,7 @@ http
 ​    }
 
 ​    \#虚拟主机的配置，每个server就是虚拟主机
+
 ​    server
 ​    {
 ​        \#监听端口
@@ -289,7 +319,9 @@ http
 ​        {
 ​            expires 1h;
 ​        }
+
 ​        \#日志格式设定
+
 ​        log_format access'$remote_addr - $remote_user [$time_local] "$request" '
 ​            '$status $body_bytes_sent "$http_referer" '
 ​            '"$http_user_agent" $http_x_forwarded_for';
@@ -342,13 +374,20 @@ http
 ​    }
 }
 
-虚拟主机
+### 虚拟主机
+
 虚拟主机（Virtual Host）可以在一台服务器上绑定多个域名，架设多个不同的网站 
+
 所有虚拟主机都是在http区域中添加一个server段(区块) 
-nginx的虚拟主机配置其实也挺简单，为了使得配置文件清晰，可以给每一个虚拟主机建立一个配置文件，然后在主配置文件（nginx.conf）里使用include语句包含所有的虚拟主机配置文件。
+
+nginx的虚拟主机配置其实也挺简单，为了使得配置文件清晰，可以给每一个虚拟主机建立一个配置文件，然后在
+
+主配置文件（nginx.conf）里使用include语句包含所有的虚拟主机配置文件。
+
 include conf.d/*.conf
 
 基于域名的虚拟主机
+
 server{
     server_name mobanker.com;
     root /var/www/html;     #指定根目录，理论上可以指定任意目录
@@ -356,6 +395,7 @@ server{
 }
 
 基于端口的虚拟主机
+
 server {
       listen 2022;
       server_name mobanker.com;
@@ -371,11 +411,18 @@ server {
 }
 
 反向代理
-反向代理是指以代理服务器来接受连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。 
-简单来说就是真实的服务器不能直接被外部网络访问，所以需要一台代理服务器，而代理服务器能被外部网络访问的同时又跟真实服务器在同一个网络环境，或同一台服务器不同端口。
+
+反向代理是指以代理服务器来接受连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果
+
+返回给请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。 
+
+简单来说就是真实的服务器不能直接被外部网络访问，所以需要一台代理服务器，而代理服务器能被外部网络访问
+
+的同时又跟真实服务器在同一个网络环境，或同一台服务器不同端口。
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\4.png](nginx.assets/4.png)
 
 反向代理主要作用
+
 • 加密和SSL加速
 • 负载均衡
 • 缓存静态内容
@@ -418,6 +465,7 @@ server {
 }
 
 处理跨域
+
 跨域 
   只要协议、域名、端口有任何一个不同，都被当作是不同的域 
   浏览器同源策略，其限制之一是不能通过ajax的方法去请求不同源中的文档。 第二个限制是浏览器中不同域的框架之间是不能进行js的交互操作的。
@@ -427,10 +475,11 @@ server {
     }
 
 负载均衡
+
 是当有2台或以上服务器时，根据规则随机的将请求分发到指定的服务器上处理，负载均衡配置一般都需要同时配置反向代理，通过反向代理跳转到负载均衡
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\5.png](nginx.assets/5.png)
 
-upstream 模块负债负载均衡模块
+upstream 模块负责负载均衡模块
 upstream test {
    server localhost:8080;
    server localhost:8081;
@@ -457,9 +506,11 @@ server {
 \5. url_hash（第三方）
 
 nginx+php
+
 FastCGI是一个可伸缩地、高速地在HTTP server和动态脚本语言间通信的接口。多数流行的HTTP server都支持FastCGI，包括Apache、Nginx和lighttpd等，同时，FastCGI也被许多脚本语言所支持，其中就有PHP.FastCGI接口方式采用C/S结构，可以将HTTP服务器和脚本解析服务器分开，同时在脚本解析服务器上启动一个或者多个脚本解析守护进程。
 
 Nginx+FastCGI运行原理
+
 Nginx不支持对外部程序的直接调用或者解析，所有的外部程序（包括PHP）必须通过FastCGI接口来调用。FastCGI接口在Linux下是socket，（这个socket可以是文件socket，也可以是ip socket）。为了调用CGI程序，还需要一个FastCGI的wrapper（wrapper可以理解为用于启动另一个程序的程序），这个wrapper绑定在某个固定socket上，如端口或者文件socket。当Nginx将CGI请求发送给这个socket的时候，通过FastCGI接口，wrapper接纳到请求，然后派生出一个新的线程，这个线程调用解释器或者外部程序处理脚本并读取返回数据；接着，wrapper再将返回的数据通过FastCGI接口，沿着固定的socket传递给Nginx；最后，Nginx将返回的数据发送给客户端，这就是Nginx+FastCGI的整个运作过程
 ![file://c:\users\baoyon~1\appdata\local\temp\tmpdkdu_6\6.png](nginx.assets/6.png)
 
