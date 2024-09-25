@@ -1,6 +1,13 @@
-kubectl config
-=======
- kubectl配置
+### kubectl 安装
+
+```
+# 确定版本之后下载二进制即可，客户端和服务端版本最好只相差 +/- 1
+curl -LO "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
+```
+
+
+
+### kubectl config
 
 config文件内容:
 
@@ -25,7 +32,7 @@ users:
     token: Lfkk8BlgoXmu7D4IkjpzMDl9X4dPR1Sz
 ```
 
-kubectl使用
+kubectl 使用
 
 
 
@@ -80,6 +87,8 @@ kubectl krew  -h
 https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 
 https://www.jianshu.com/p/4238dd05f143
+
+https://kubernetes.io/zh-cn/docs/tasks/tools/install-kubectl-linux/
 
 使用
 

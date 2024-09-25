@@ -1,5 +1,7 @@
 配置文件总览
 
+nginx.conf
+
 ```
 worker_processes  auto;
 
@@ -30,7 +32,37 @@ http {
     include /etc/nginx/conf.d/*.conf;
 }
 
-include /etc/nginx/conf.d/proxy.stream;
+stream{
+    include /etc/nginx/conf.d/*.stream;
+}
+```
+
+test.conf
+
+```
+server {
+    listen       80;
+    server_name  grafana.cschain.tech; 
+    root         /usr/share/nginx/html;
+    
+    location / {
+    proxy_pass http://10.0.4.49$request_uri;
+    }
+}
+```
+
+test.stream
+
+```
+upstream uidg {
+        hash $remote_addr consistent;
+        server 10.0.4.49:30890 weight=1 max_fails=3 fail_timeout=30s;
+}
+
+server {
+       listen       30890;
+       proxy_pass uidg;
+}
 ```
 
 
@@ -50,3 +82,9 @@ upstream 模块：从属于 HTTP 模块
 Location 模块：从属于 Server 模块，用于处理特定的 URI。
 
 stream 模块：直接从属于全局配置块
+
+
+
+### 注意
+
+1 个 nginx 只能有  1 个  http 模块和一个 stream 模块.

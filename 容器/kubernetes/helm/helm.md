@@ -41,6 +41,13 @@ helm pull bitnami/grafana --version 8.4.6
 helm status api
 helm history api
 helm rollback api 3
+
+
+#
+helm install loki --namespace=loki loki-stack-2.10.2.tgz --set loki.persistence.enabled=true,loki.persistence.storageClassName=alicloud-disk-essd-pl0,loki.persistence.size=50Gi
+
+helm install rabbitmq --namespace=mw rabbitmq-13.0.3.tgz -f value.yaml
+
 #
 helm upgrade api ./kong-2.32.0.tgz -f values-adb.yaml -n kong
 

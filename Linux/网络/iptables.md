@@ -45,7 +45,7 @@ nftables 作为后端。
 
 **nftables**
 
-nftables 是 iptables 的后继者，旨在解决 iptables 的一些设计问题，提供更高效和更直观的方式来管理网络相关
+nftables 是 iptables 的后继者（作用等同于 iptables ），旨在解决 iptables 的一些设计问题，提供更高效和更直观的方式来管理网络相关
 
 的钩子。
 
@@ -55,11 +55,17 @@ ip6tables、arptables 和 ebtables 的功能。
 
 ##### 关系
 
-iptables 和 nftables 都是直接与 Linux 内核的 netfilter 框架交互。
+iptables 和 nftables 都是直接与 Linux 内核的 netfilter 框架交互
 
-Ufw 是 iptables 的前端工具，旨在简化其配置过程。
+Ufw 是 iptables 的前端工具，旨在简化其配置过程
 
-firewalld 可以使用 iptables 或 nftables 作为其后端，提供动态防火墙管理。
+firewalld 可以使用 iptables 或 nftables 作为其后端，提供动态防火墙管理
+
+
+
+参考
+
+https://blog.csdn.net/hougang/article/details/133393806
 
 ### 基本概念
 
