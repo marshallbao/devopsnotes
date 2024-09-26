@@ -1,4 +1,4 @@
-
+autoscale
 
 ```
 # kubectl -n irita autoscale deployment irita-home --cpu-percent=50 --min=1 --max=10

@@ -40,33 +40,41 @@ RUN
   RUN COMMAND1 && \
    COMMAND2 && \
 CMD
-默认的容器启动执行命令（可被run和entrypoint覆盖）,多个CMD只有最后一个生效
+默认的容器启动执行命令（可被run和entrypoint覆盖）,多个 CMD 只有最后一个生效
 1.CMD ["executable","param1","param2"] (exec form, this is the preferred form)
 
 2.CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
 
-3.CMD command param1 param2 (shell form)用法1(推荐)
+3.CMD command param1 param2 (shell form ) 用法1 (推荐)
 FROM centos
 CMD ["/bin/bash", "-c", "echo 'hello cmd!'"]用法3
 FROM centos
 CMD echo "hello cmd!"docker run web
+
 Shell形式和exec形式之间有两个区别
 1、exec形式被解析为JSON数组，命令或参数要用双引号而不是单引号；
 2、exec表单不会调用shell；
 CMD echo $HOME 
 CMD ["/bin/sh","-c","echo $HOME"]
 CMD ["/bin/echo","$HOME"] ❌
+
 适用场景：无需预处理配置，无需修改参数，比较固定的服务或任务
-用法2
+
+用法 2
 FROM centos
 CMD ["hello cmd"]
 ENTRYPOINT
-用于为容器指定默认的运行程序且不会被docker run 参数所覆盖,如果同时存在cmd和entypoint，cmd会被当作参数传递给entypoint ，命令行参数优先级高于cmd参数传递给entypoint
+
+用于为容器指定默认的运行程序且不会被docker run 参数所覆盖,如果同时存在cmd和entypoint，cmd会被当作
+
+参数传递给entypoint ，命令行参数优先级高于 cmd 参数传递给entypoint
+
 1.ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
 2.ENTRYPOINT command param1 param2 (shell form)用法1（推荐）
 FROM centos
 CMD ["pin cmd"]
 ENTRYPOINT ["echo"]docker run web p in run
+
 如果run命令后面有东西，那么后面的全部都会作为entrypoint的参数。如果run后面没有额外的东西，但是cmd有，那么cmd的全部内容会作为entrypoint的参数，这同时是cmd的第二种用法
 
 适用场景：可变参数，需要初始化配置，exec "$@"
@@ -89,15 +97,17 @@ docker build：使用dockerfile 构建镜像
 --build-arg=[] :设置镜像创建时的变量；
 -f :指定要使用的Dockerfile路径；
 
-
 docker build -t image-name -f /dir/Dockerfile
+
 例：Dockerfile
 FROM alpine
 RUN date > /world.txt
 CMD cat /world.txtdocker build -t image-name -f /dir/Dockerfile
 docker tag name new-name；
 docker push new-name；
-多阶段构建
+
+#### 多阶段构建
+
 FROM nginxbuild:01 as build
 WORKDIR /app
 RUN echo "Build" >> /app/testFROM nginxrun:01
@@ -125,7 +135,6 @@ WORKDIR /app
 RUN apt-get update
 ADD run.sh /
 CMD ["./run.sh"]
-
 
 注意
 1、ADD 命令与 COPY 命令

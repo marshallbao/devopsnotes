@@ -1,4 +1,4 @@
-### 1、容器技术原理
+## 容器技术原理
 
 
  LXC:LinuX Container
@@ -22,7 +22,7 @@
  mesos+marathon
  kubemetes 
 
-### 2、Docker 基础用法
+### Docker 基础用法
 
 #### 镜像
 
@@ -108,7 +108,7 @@ docker commit  a404c6c174a2  mymysql:v1
 
 ```
 
-docker save 和docker export以及docker commit的区别
+docker save 和 docker export 以及 docker commit 的区别
 1. docker save保存的是镜像（image），docker export保存的是容器（container）
 2. docker load用来载入镜像包，docker import用来载入容器包，但两者都会恢复为镜像
 3. docker load不能对载入的镜像重命名，而docker import可以为镜像指定新名称
@@ -129,234 +129,156 @@ docker stats
 
 
 
+### Docker 镜像相关
+
+#### 镜像原理理解
+
+**名词解析**
+
+bootfs：boot file system ，引导文件系统，包括 bootloader 和 kernel，当 bootloader 引导kernel加载到内存
+
+后，系统会卸载bootfs，以节省资源；
+
+rootfs：root file system ，root 文件系统（根文件系统）
+
+aufs：advanced union file system（高级联合文件系统）
+
+**docker 文件系统简述**
+
+Docker 目前支持的文件系统包括 AUFS, btrfs, vfs 和 DeviceMapper；
+
+最底层为 bootfs,然后是 rootfs;
+
+所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核;
+
+每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等
+
+所有基于一种基础镜像的容器都共享这种 rootfs;
 
 
 
+那么docker的 rootfs 与传统意义的 rootfs 不同之处到底是什么呢
 
-### 3、docker 安装
+传统的Linux加载bootfs时会先将rootfs设为read-only，然后在系统自检之后将rootfs从read-only改为read-
 
-centos
+write。然后我们就可以在rootfs上进行写和读的操作了
+
+而docker镜像在bootfs自检完毕之后并不会把rootfs的read-only改为read-write。而是利用union 
+
+mount（UnionFS的一种挂载机制）将一个或多个read-only的rootfs加载到之前的read-only 的rootfs层之上。
+
+并在加载了这么多层的rootfs之后，仍然让它看起来只像一个文件系统，在docker的体系里把union mount的这些
+
+read-only层的rootfs叫做docker的镜像（image）。此时的每一层rootfs都是read-only的，那么我们怎样对其进
+
+行读写操作呢？
+
+答案是将docker镜像进行实例化，也就是把镜像（image）变成容器（container），当镜像被实例化为容器之
+
+后，系统会为在一层或是多层的read-only的rootfs之上分配一层空的read-write的rootfs。而这个分配的动作是由
+
+docker run命令发起的；
+
+当我们将一个镜像实例化为一个容器之后，docker 会在read-only 的rootfs之上分配一层空的read-write的
+
+rootfs，我们对文件系统的改变实际上是在空的这层rootfs（read-write）上发生的。
+
+如果你想修改一个文件，系统实际上是将这个在 read-only 层的 rootfs 的文件拷贝到 read-write 层的 rootfs 之
+
+中，然后对它进行修改，但 read-only 层的文件并不会被修改，依然存在于read-only层之中，只不过是在read-
+
+write 层下被隐藏了。
+
+这种模式被称为 copy on write。这是 unionFS 的特性。
+
+#### 镜像制作
+
+基于容器制作
+在容器完成操作后制作
 
 ```
-sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
-                  
-#
-sudo yum install -y yum-utils
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-    
-#
-sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+docker commit
+   --author, -a
+   --pause,-p
+   --message,-m
+   --change,-c
 
-#
-yum list docker-ce --showduplicates | sort -r
-
-#
-sudo yum install docker-ce-18.06.0.ce-3.el7 docker-ce-cli-18.06.0.ce-3.el7 containerd.io docker-compose-plugin
+docker commit -p b2；
+docker commit container image-name；
 ```
 
-参考
 
-https://docs.docker.com/engine/install/
 
+基于镜像制作：
+编辑 Dockerfile 
 
+#### vmware harbor 容器仓库
 
+```
+# vmware harbor 使用的http协议
+# 安装 docker
+yum install docker
+yum install docker-compose
 
+# 下载包
+wget  https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.2.tgz 
 
+# 解压
+tar -xf harbor-offline-installer-v1.5.2.tgz -C /usr/local/
 
+# 配置
+cd /usr/local/harbor;vim harbor.cfg
+hostname = ip # 一定是外网IP
 
-3、Docker镜像相关
+# 运行
+./install.sh
 
+# 访问
+http://ip:80
 
- 镜像原理理解：
-  名词解析：
-    bootfs:boot file system :引导文件系统，包括bootloader和kernel，当bootloader引导kernel加载到内存后，系统会卸载bootfs，以节省资源；
-    rootfs:root file system ：root文件系统（根文件系统）
-    aufs:advanced union file system（高级联合文件系统）
+# 账号信息
+admin/Harbor12345  
 
+# 启动停止 harbor
+docker-compose stop|start
+```
 
-  docker文件系统简述：
-   最底层为bootfs,然后是rootfs;
-    所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核;
-    每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等，其中ubuntu:aufs；centos7:devicemapper。
-    所有基于一种基础镜像的容器都共享这种rootfs;
 
-   Docker 目前支持的文件系统包括 AUFS, btrfs, vfs 和 DeviceMapper；
 
-  那么docker的rootfs与传统意义的rootfs不同之处到底是什么呢？
+### docker 容器网络
 
+两级三层封装：容器之间的 ip 通过物理主机之间的 ip 再封装一次，实现容器之间的通信
 
-   传统的Linux加载bootfs时会先将rootfs设为read-only，然后在系统自检之后将rootfs从read-only改为read-write。然后我们就可以在rootfs上进行写和读的操作了。
-   而docker镜像在bootfs自检完毕之后并不会把rootfs的read-only改为read-write。而是利用union mount（UnionFS的一种挂载机制）将一个或多个read-only的rootfs加载到之前的read-only 的rootfs层之上。
-   并在加载了这么多层的rootfs之后，仍然让它看起来只像一个文件系统，在docker的体系里把union mount的这些read-only层的rootfs叫做docker的镜像（image）。此时的每一层rootfs都是read-only的，那么我们怎样对其进行读写操作呢？
+```
+# 查看网络驱动
+docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+204f594eddeb   bridge    bridge    local
+b46568b99ca2   host      host      local
+4548aefba753   none      null      local
 
+# 查看docker network 详细元数据信息
+docker network inspect bridge#
+```
 
-   答案是将docker镜像进行实例化，也就是把镜像（image）变成容器（container），当镜像被实例化为容器之后，系统会为在一层或是多层的read-only的rootfs之上分配一层空的read-write的rootfs。而这个分配的动作是由docker run命令发起的；
 
 
-   当我们将一个镜像实例化为一个容器之后，docker会在read-only 的rootfs之上分配一层空的read-write的rootfs，我们对文件系统的改变实际上是在空的这层rootfs（read-write）上发生的。
-   如果你想修改一个文件，系统实际上是将这个在read-only层的rootfs的文件拷贝到read-write层的rootfs之中，然后对它进行修改，但read-only层的文件并不会被修改，依然存在于read-only层之中，只不过是在read-write层下被隐藏了。
-   这种模式被称为copy on write。这是unionFS的特性。也是docker的强大之处，为什么说强大呢？它允许镜像被继承，也就是说我们想生成一套虚拟环境不用从零开始了，而只要在一个相对完善的基础环境之上来创建我们的虚拟环境就可以了，比如我们想生成一个具有tomcat环境的镜像，只要在一个装有java环境的镜像之上来创建就可以了。这也是docker便捷性的体现。
+示例
 
- 镜像仓库相关：
+```
+docker run --name tt1 -it -h mage --network bridge --dns 114.114.114.114 --dns-search ilinux.io --add-host docker.com:172.0.0.3 --rm busybox:latest
+# 参数
+-p containterPort 将指定的容器端口映射至主机所有地址的一个动态端口
+hostPort:containerPort 将容器端口映射至指定的主机端口
+ip::containerPort将指定的容器端口映射至主机指定的ip 的端口
+ip:hostPort:containerPort将指定的容器端口映射至主机指定的ip的端口 
+-P 或 --pushlish-all 将容器的所有计划要暴露端口全部映射至主机端口
+```
 
-  docker registry:？
-   Sponsor Registry:
-   Mirror Registry:
-   Vendor Registry:
-   Private Registry:私有仓库：通过设有防火墙和额外的安全层的私有实体提供的registry
 
 
-  Registry（repository and index）:注册服务器
-  Repository:仓库
-  Registry是存放仓库的地方，一个Registry中可以存在多个repository，每个仓库集中存放某一类镜像，往往包括多个镜像文件，通过不同的标签（tag）来进行区分（每个标签对应一个镜像）；
 
-
- 镜像制作：
-
-  基于容器制作：
-   在容器完成操作后制作；
-    docker commit
-     --author, -a
-     --pause,-p
-     --message,-m
-     --change,-c
-     
-    docker commit -p b2；
-    docker commit container image-name；
-
-  基于镜像制作：
-   编辑dockerfile 
-   Dockerfile Instructions（dockerfile说明）:
-
-
-
-4、docker容器网络？
-
-
- 两级三层封装：容器之间的ip通过物理主机之间的ip再封装一次，实现容器之间的通信；
-
-
- docker network ls
-
-
- yum install bridge-utils
-
-
- brctl show
-
- ip link show
-
-
- 网卡一半在容器里，一半在宿主机的网桥上
-
-
- iptables -t nat -vnL
-
-
- 外部服务器如何访问容器web?
-  暴露服务：开放物理主机端口，利用dnet转到容器 
-
- 每个容器都有独立的6种名称空间：UTS，User,Mount,IPC,Pid,Net
- 但可以共享：UTS,Net，IPC 
- 容器也可以和物理机共享名称空间
-
-
-
-
- 4种容器网络模型：
-
-
- closed  container   lo(封闭式容器) 
-
-
- bridges  container (net网络，桥接网络)
-
-
- Joined container  (联盟式网络-容器之间共享网络名称空间)
-
-
- Open container(开放式网络-容器和物理机之间的共享网络名称空间（网络接口）)
-
-
-
-
- docker network inspect bridge#查看docker network 详细元数据信息
-
-  
-
-
- ip netns 命令
-
-
- ip netns list
-
-
- ip link add name veth1.1 type veth peer name veth1.2
-
-
- ip netns exec r1 ifconfig  -a 
-
-
- 将网卡分配到网络名称空间
-
-
- ip netns exec r2 ifconfig veth1.1 10.1.0.3/24 up 
-
-
- ip netns exec r1 ping 10.1.0.2
-
-
- docker run --name tt1 -it -h mage --network bridge --dns 114.114.114.114 --dns-search ilinux.io --add-host docker.com:172.0.0.3 --rm busybox:latest
-
-
- nslookup -type=A www.baidu.com
-
-
- Opening inbound communication
-
-
- -p containterPort 将指定的容器端口映射至主机所有地址的一个动态端口
-
-
-  hostPort:containerPort 将容器端口映射至指定的主机端口
-
-  ip::containerPort将指定的容器端口映射至主机指定的ip 的端口
-
-  ip:hostPort:containerPort将指定的容器端口映射至主机指定的ip的端口 
-
-  _P或--pushlish-all 将容器的所有计划要暴露端口全部映射至主机端口
-
-  docker run -d -P --expose2222 --expose 3333 --name web busybox /bin/httpd -p 2222 -f
-
- docker run --name myweb --rm -p 80 httpd:v.02
-
-
- docker run --name myweb --rm -p 172.20.0.1:：80 httpd:v0.2
-
-
- docker port myweb
-
-
- Joined container
-
-
- docker run --name bb2 --network container:bb1 -it --rm busybox
-
-
- docker run --nbb2 --network host -it --rm busybox
-
-
-
- docker守护进程C/S，其默认仅监听Unix Socket格式的地址，/var/run/docker.sock;如果使用TCP套接字，
+ docker 守护进程C/S，其默认仅监听 Unix Socket 格式的地址，/var/run/docker.sock; 如果使用TCP套接字，
 
 
  /etc/docker/daemon.json：
@@ -368,12 +290,11 @@ https://docs.docker.com/engine/install/
  也可以直接 docker -H 
 
 
- 自定义docker桥的网卡属性：/etc/docker/daemon.json文件
+ 自定义 docker 桥的网卡属性：/etc/docker/daemon.json 文件
 
 
 
-
-5、Docker存储卷
+### Docker存储卷
 
 
  volume：存储卷
@@ -382,8 +303,7 @@ https://docs.docker.com/engine/install/
  主机和容器路径的映射关系 
  /data/web ->/containers/data/web
 
-
- 服务分类：
+ 服务分类 ：
  有状态需要持久存储
  有状态无需要持久存储
  无状态需要持久存储
@@ -401,12 +321,8 @@ https://docs.docker.com/engine/install/
 
  2、docker run -it --name test2 --rm -v /data/volume/test2:/data/test2 busybox
 
-
  主机：/data/volume/test2
  容器：/data/test2
-
-
- joined Containers？
 
  多个容器的卷使用同一个目录：
   docker run -it --name box1 -v /docker/volumes/v1:/data busybox
@@ -423,94 +339,14 @@ https://docs.docker.com/engine/install/
 
   docker run -it --name box2 --volumes-from box1 busybox
 
+###  
 
+### Docker 的系统资源限制及验正
 
-6、Docker私有registry
-
-
- 包名：docker-distribution
-
- 查看信息：docker info docker-registry
-
- 安装：yum install docker-registry
-
- 配置文件：/etc/docker-distribution/registry/config.yml
-
-
-  docker tag busybox:latest Ali-byg:5000/busybox:latest#打标签
-
-  docker push Ali-byg:5000/busybox:latest#上传
-
- 注意：docker-registry 默认使用http协议，而push默认使用https协议
-
- 解决办法：a.把docker-registry改为https
-     b.将docker 设置为非保密模式，
-     vim /etc/docker/daemon.json
-      添加  "insecure-registries": ["Ali-byg:5000"]
-
-
-     重启docker systemctl restart docker.service
-
-  通常用方法b  
+三种资源：memory，CPU，I/O
 
 
 
 
- 搭建 vmware harbor 企业级容器仓库
-
-  vmware harbor使用的http协议
-  前提：
-   yum install docker
-   yum install docker-compose
-
-  下载包：
-   wget  https://storage.googleapis.com/harbor-releases/harbor-offline-installer-v1.5.2.tgz 
-  解压：
-   tar -xf harbor-offline-installer-v1.5.2.tgz -C /usr/local/
-  配置：
-   cd /usr/local/harbor;vim harbor.cfg
-   hostname = ip#一定是外网IP
-  运行：
-   ./install.sh
-  访问：
-   http://ip:80
-  账号信息： 
-   admin/Harbor12345  
-
-  重启docker：
-   systemctl daemon-reload
-   systemctl restart docker
-
-  启动停止harbor
-
-  docker-compose stop|start
-
-  docker-compose ？？之间的关系
-
-7、Docker的系统资源限制及验正
-
-
- 三种资源：memory,CPU，I/O
-
-
- memory：非可压缩性资源
-
-  OOME：Out Of Memory Exception 
-  调整dockers daemon 或重要容器的oom优先级 
-  -m OR --memory= M   #定义限制RAM  
-  --memory-swap=S 容器可用总空间为S  
-
- CPU：可压缩性资源
-  根据需求分享
-
- docker pull lorel/docker-stress-ng:latest #下载压测镜像
-
-
- docker states #查看容器资源利用
-
-
-  docker run --name stress -it --cpu-share 1024 --rm lorel/docker-stress-ng:latest stress --cpu 8 
-
-
- 容器安全方面 
+###  容器安全方面 
 

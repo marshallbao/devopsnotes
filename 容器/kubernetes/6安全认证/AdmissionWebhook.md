@@ -1,3 +1,5 @@
+在该列表中，有两个特殊的控制器：MutatingAdmissionWebhook 和 ValidatingAdmissionWebhook。 它们根据 API 中的配置， 分别执行变更和验证准入控制 Webhook。
+
 在 Kubernetes 中，Admission Webhook 是一种允许您在 Kubernetes API 请求的生命周期中执行自定义逻辑的机制。Admission  Webhook 主要有两种类型：`MutatingWebhookConfiguration` 和 `ValidatingWebhookConfiguration`。它们分别用于不同的目的和场景。
 
 #### MutatingWebhookConfiguration

@@ -13,14 +13,14 @@
 
 #### kube-proxy 的工作原理
 
-- iptables 模式
-
-  ：
+- iptables 模式：
 
   - `kube-proxy` 使用 iptables 规则来实现服务 IP 到后端 Pod 的流量转发。它会在每个节点上设置大量的 iptables 规则，这些规则定义了如何将服务 IP 的流量转发到后端 Pod。
 
-- IPVS 模式
-
-  ：
+- IPVS 模式：
 
   - IPVS 模式使用 Linux 内核的 IPVS 模块来实现更高效的流量转发。相比于 iptables 模式，IPVS 模式具有更高的性能和更好的扩展性，适用于大规模集群。
+  - 当创建service之后，kube-proxy 会在所在宿主机上创建一个虚拟网卡（kube-ipvs0）,并为他分配clusterIP,然后kube-proxy通过IPVS模块，为这个
+    		地址，创建n个虚拟主机（虚拟主机就是后端podip+port），实现了负载均衡与代理；
+    		其实ipvs模式也需要iptables来实现包过滤，SNAT等操作。不过这些数据清理操作是有限的并不会随着pod增加而增加
+    		<通俗的来说：pod访问clusterip出主机的时候被iptables发现，进行处理传到ipvs模块，获取pod地址，然后通过flannel直接访问pod>
