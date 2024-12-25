@@ -77,11 +77,11 @@ nat 表：network address translation，网络地址转换功能；内核模块�
 
 mangle 表：拆解报文，做出修改，并重新封装 的功能；iptable_mangle
 
-raw 表：关闭nat表上启用的连接追踪机制；iptable_raw
+raw 表：关闭 nat 表上启用的连接追踪机制；iptable_raw
 
 
 
-链（Chain）：链是一组按顺序排列的规则，用于对数据包进行处理。常见的链有INPUT、OUTPUT、FORWARD、PREROUTING 和 POSTROUTING。
+链（Chain）：链是一组按顺序排列的规则，用于对数据包进行处理。常见的链有 INPUT、OUTPUT、FORWARD、PREROUTING 和 POSTROUTING。
 
 
 
@@ -178,6 +178,20 @@ iptables -t nat -A POSTROUTING -d 10.5.0.0/25 -o eth0 -j MASQUERADE
 
 # 修改 FORWARD 链的默认规则为 DROP
 iptables -P FORWARD DROP
+
+# 删除规则
+iptables -D INPUT 5
+sudo iptables -D INPUT -s 10.4.5.88 -j ACCEPT
+
+
+## 其他相关命令
+iptables-save
+# iptables 规则备份
+iptables-save > /etc/iptables/rules.v4
+
+# iptables 规则还原
+iptables-restore < /etc/iptables/rules.v4
+
 ```
 
 

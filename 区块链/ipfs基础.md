@@ -13,3 +13,22 @@
   - IPFS Cluster 使用此端口提供 API，用于管理 IPFS 集群以及跟踪和复制 IPFS 数据。
 - Raft 默认端口： 9096
   - 在 IPFS Cluster 中，Raft 用于一致性协议，通常使用默认端口 9096 进行通信。
+
+
+
+常用
+
+```
+ipfs add 
+
+
+```
+
+
+
+参考
+
+https://www.cnblogs.com/qxxiao/p/15476910.html
+
+
+

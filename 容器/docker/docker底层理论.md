@@ -1,10 +1,10 @@
 ### docker 底层理论
 
-依赖 linux 的 cgroup,namespace 机制来启动特殊的进程
+依赖 linux 的 cgroup，namespace 机制来启动特殊的进程
 
 容器的本质是一种特殊的进程
 
-**namespace** 是用来隔离进程的（通过修改视图）；有PID、Mount、UTS、IPC、Network 和 User 6种namespace;
+**namespace** 是用来隔离进程的（通过修改视图）；有 PID、Mount、UTS、IPC、Network 和 User 6种namespace;
 
 Namespace 技术实际上修改了应用进程看待整个计算机“视图”，即它的“视线”被操作系统做了限制，只能“看到”某些指定的内容。但对于宿主机来说，这些被“隔离”了的进程跟其他进程并没有太大区别。
 

@@ -20,7 +20,4 @@
 - IPVS 模式：
 
   - IPVS 模式使用 Linux 内核的 IPVS 模块来实现更高效的流量转发。相比于 iptables 模式，IPVS 模式具有更高的性能和更好的扩展性，适用于大规模集群。
-  - 当创建service之后，kube-proxy 会在所在宿主机上创建一个虚拟网卡（kube-ipvs0）,并为他分配clusterIP,然后kube-proxy通过IPVS模块，为这个
-    		地址，创建n个虚拟主机（虚拟主机就是后端podip+port），实现了负载均衡与代理；
-    		其实ipvs模式也需要iptables来实现包过滤，SNAT等操作。不过这些数据清理操作是有限的并不会随着pod增加而增加
-    		<通俗的来说：pod访问clusterip出主机的时候被iptables发现，进行处理传到ipvs模块，获取pod地址，然后通过flannel直接访问pod>
+  - 当创建 service 之后，kube-proxy 会在所在宿主机上创建一个虚拟网卡（ kube-ipvs0 ）,并为他分配clusterIP ,然后 kube-proxy 通过 IPVS 模块，为这个地址创建 n 个虚拟主机（虚拟主机就是后端podip+port），实现了负载均衡与代理；其实ipvs模式也需要 iptables 来实现包过滤，SNAT 等操作。不过这些数据清理操作是有限的并不会随着pod增加而增加。< 通俗的来说：pod 访问 clusterip 出主机的时候被 iptables 发现，进行处理传到 ipvs 模块，获取pod 地址，然后通过 flannel 直接访问 pod >

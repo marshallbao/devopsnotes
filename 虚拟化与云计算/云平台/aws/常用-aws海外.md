@@ -12,9 +12,9 @@ https://calculator.aws/#/
 
 2、添加节点需要创建 AmazonEKSNodeRole  角色，包含以下策略
 
-- `AmazonEKSWorkerNodePolicy`
-- `AmazonEC2ContainerRegistryReadOnly`
-- `AmazonEKS_CNI_Policy` 
+- AmazonEKSWorkerNodePolicy
+- AmazonEC2ContainerRegistryReadOnly
+- AmazonEKS_CNI_Policy
 
 3、CNI 插件需要配置权限，将 AmazonEKS_CNI_Policy 附加到已与您的工作线程节点关联的 IAM 角色即AmazonEKSNodeRole 角色（如果第二步做了那这步就不需要了）
 
@@ -22,7 +22,7 @@ https://calculator.aws/#/
 
 4、EBS CSI 驱动需要创建角色并通过 annotations 绑定至 EBS CSI 对应的 sa ，从而获得权限
 
-5、 ingress LB 一定要选择4层 的lb 即 nlb
+5、 ingress LB 一定要选择 4 层 的 lb 即 nlb
 
 #### 参考
 
