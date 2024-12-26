@@ -1,3 +1,5 @@
+# 备份和恢复
+
 ## 方式
 
 逻辑备份：mongodump & mongorestore，可以支持单个库、单个collection，也支持条件查询备份，比较灵活通常用于数据量比较少的场景
