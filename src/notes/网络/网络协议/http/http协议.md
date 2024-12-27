@@ -2,13 +2,9 @@
 
 HTTP 协议（超文本传输协议）是一种网络通信协议，它允许将超文本标记语言(HTML)文档从Web服务器传送到客户端的浏览器
 
-### 特点
-
-
-
 ### HTTP 协议组成
 
-<img src="http协议.assets/image-20230203104250412.png" alt="image-20230203104250412" style="zoom:80%;" />
+<img src="./http协议.assets/image-20230203104250412.png" alt="image-20230203104250412" style="zoom:80%;" />
 
 #### 请求行
 
@@ -32,11 +28,9 @@ HTTP协议的请求方法:
 
 #### 请求头
 
-请求头部由关键字/值对组成，每行一对，关键字和值用英文冒号 “ : ” 分隔。
+请求头部由关键字和值组成，每行一对，关键字和值用英文冒号 “ : ” 分隔。
 
-![image-20230203104632697](http协议.assets/image-20230203104632697.png)
-
-
+![image-20230203104632697](./http协议.assets/image-20230203104632697.png)
 
 常见典型的请求头有
 
@@ -48,7 +42,7 @@ Host：请求的主机名，允许多个域名同处一个IP地址，即虚拟�
 
 Content-Type：请求体的MIME类型，MIME类型：描述消息内容类型的因特网标准，常见的有
 
-application/json、image/jpeg、application/octet-stream等
+application/json、image/jpeg、application/octet-stream 等
 
 #### 请求正文（body）
 

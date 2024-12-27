@@ -1,8 +1,8 @@
-## 手动推送
+# Push NPM 包
 
+### 手动推送
 
-
-#### 1.注册npm账号
+1. 注册npm账号
 
 注册地址：
 
@@ -15,17 +15,7 @@ Public Email 邮箱(邮箱是公开的)
 
 · Password：登录密码
 
-<img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210218140559115.png" alt="image-20210218140559115" style="zoom: 67%;" />
-
- 
-
- ![image-20210218141037613](C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210218141037613.png)
-
- 
-
- 
-
-#### 2.在github中创建一个npm包的代码库
+2. 在github中创建一个npm包的代码库
 
 将github的代码库git clone到本地
 
@@ -56,24 +46,24 @@ package name：比较重要，会显示到 npm 仓库，不能和现有的名称
 version: 版本号
 license：开源协议
 
-#### 3.登录 npm 账号
+3. 登录 npm 账号
 
 打开 cmd 命令行，输入 npm login
 分别输入用户名，密码，邮箱，如下图所示
 
-![](C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210218141107665.png)
+![](./push_npm.assets/image-20210218141107665.png)
 
-#### 4.发布 npm 包到仓库
+4. 发布 npm 包到仓库
 
 cmd 命令行执行 npm publish
 
-#### 5. 发布成功后，到npm仓库搜索package name即可查询到
+5. 发布成功后，到npm仓库搜索package name即可查询到
 
 
 
-## 自动推送
+### 自动推送
 
-1、创建actions 模板
+1、创建 actions 模板
 
 ```
 name: Node.js Package
@@ -101,20 +91,10 @@ jobs:
 
 
 
-2、新建Access token
+2、新建 NPM 仓库的 Access token
 
-<img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144102915.png" alt="image-20210301144102915" style="zoom:50%;" />
-
-<img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144128170.png" alt="image-20210301144128170" style="zoom:50%;" />
-
-![image-20210301144151261](C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144151261.png)
-
-3、设置Github的Secrets
-
-<img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144210576.png" alt="image-20210301144210576" style="zoom:50%;" />
-
-<img src="C:\Users\baoyonggui\AppData\Roaming\Typora\typora-user-images\image-20210301144233018.png" alt="image-20210301144233018" style="zoom:50%;" />
+3、设置 Github 的 Secrets
 
 4、触发 action 进行推送
 
-注意：package 的name 和version 都是从 package.json 中拿的
+注意：package  的 name 和 version 都是从 package.json 中拿的
