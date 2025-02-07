@@ -1,14 +1,6 @@
-### Prompt Engineering
+# 提示词
 
-
-
-
-
-![img](Prompt.assets/8cc2cb617887e17f7f3c2b0eecc0a22d.png)
-
-
-
-工程化提示词
+结构/工程化提示词
 
 ```
 # Role // 定义角色
@@ -117,3 +109,7 @@ https://waytoagi.feishu.cn/wiki/QPe5w5g7UisbEkkow8XcDmOpn8e
 https://waytoagi.feishu.cn/wiki/QYSUwl1t8iu8UFk5MyycQ4o8nQc
 
 https://modelscope.cn/studios/LLMRiddles/LLMRiddles/summary
+
+https://langgptai.feishu.cn/wiki/RXdbwRyASiShtDky381ciwFEnpe
+
+https://www.feishu.cn/community/article?id=7364987863647125532

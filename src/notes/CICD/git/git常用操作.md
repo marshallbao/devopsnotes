@@ -1,10 +1,22 @@
-git
+# git
 
 ```
 git fetch --all
 
 # 清理孤立或无法访问的 Git 对象
 git prune
+
+# 创建一个附注标签
+git tag -a v2.0.0-rc -m "Release version 1.0"
+
+# 查看标签
+git tag
+
+# 推送特定标签到远程
+git push origin v1.0
+
+# 推送所有标签到远程
+git push origin --tags
 ```
 
 
@@ -51,8 +63,6 @@ git push origin --delete origin/patch-1
 -D：强制删除指定分支，即便其中含有未合并的变更。该命令常见于当开发者希望永久删除某一开发过程中的所有commit
 
 ```
-
-
 
 
 
