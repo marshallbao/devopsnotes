@@ -67,6 +67,30 @@ server {
 
 
 
+IP 访问默认配置
+
+```
+# 不匹配任何域名时，流量会到这里
+server {
+    listen       80 default_server;
+
+    server_name _;
+    return 403;
+}
+
+server {
+    listen       443 ssl default_server;
+
+    server_name _;
+    return 403;
+
+    ssl_certificate /tmp/ssl/server.crt;
+    ssl_certificate_key /tmp/ssl/server.key;
+}
+```
+
+
+
 ### 配置文件的主要模块
 
 全局配置块：最顶层，包含所有其他模块

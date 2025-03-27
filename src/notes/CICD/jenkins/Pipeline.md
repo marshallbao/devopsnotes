@@ -1,3 +1,5 @@
+# Pipeline
+
 ### 概念
 
 Pipeline，简而言之，就是一套运行于Jenkins上的工作流框架，将原本独立运行于单个或者多个节点的任务连接
@@ -34,12 +36,13 @@ parameters
 agent
 
 stages
+	stage
+		step
+			echo
+			script
+				sh
+				echo
 
-​	stage
-
-​	step
-
-​	script
 post
 	success
 	always
@@ -90,6 +93,28 @@ pipeline {
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 注意点
 
