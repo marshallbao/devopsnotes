@@ -12,7 +12,7 @@ groupadd -g 1005 gitlab-runner
 useradd -m -d /home/gitlab-runner -u 1005 -g gitlab-runner gitlab-runner
 ```
 
-2、去 gitlab 生成 gitlab-runner 认证token
+2、去 gitlab 生成 gitlab-runner 认证 token
 
 
 
@@ -22,7 +22,7 @@ useradd -m -d /home/gitlab-runner -u 1005 -g gitlab-runner gitlab-runner
 gitlab-runner register --non-interactive --url "https://gitlab.bianjie.ai/" --registration-token "xxxx" --executor "docker" --docker-image alpine:latest --description "shared-runner-nj-120"
 ```
 
-3、注册之后会生成/etc/gitlab-runner/config.toml配置文件
+3、注册之后会生成 /etc/gitlab-runner/config.toml 配置文件
 
 ```
 root@LAPTOP-8P8KN0QD:/etc/gitlab-runner# cat config.toml

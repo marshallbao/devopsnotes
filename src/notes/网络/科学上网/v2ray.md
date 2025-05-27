@@ -2,7 +2,7 @@
 
 架构
 
-client --> cloudflare --> 域名 --> nginx+ssl --> ws+ssl+v2ray 
+client --> cloudflare --> 域名 --> nginx+ssl --> ws+ssl+v2ray
 
 
 

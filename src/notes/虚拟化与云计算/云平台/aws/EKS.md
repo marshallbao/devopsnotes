@@ -98,3 +98,30 @@ https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/add-user-role.html
 aws autoscaling terminate-instance-in-auto-scaling-group --instance-id i-0dc647f4243015e05 --should-decrement-desired-capacity
 ```
 
+
+
+关于负载均衡
+
+创建 nlb
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+
+# external: 明确告诉 Kubernetes："不要使用内置的云提供商逻辑，而是交给 AWS Load Balancer Controller 处理"。
+
+# aws-load-balancer-nlb-target-type
+ip 模式：流量直接路由到 Pod IP（绕过 kube-proxy），适用于 VPC CNI，可保留客户端真实 IP。
+instance 模式：流量先到 NodePort，再转发到 Pod（类似传统模式）
+
+# service.beta.kubernetes.io/aws-load-balancer-scheme
+指定 NLB 是面向公网（internet-facing）还是内部（internal）
+
+
+```
+

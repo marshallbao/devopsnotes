@@ -1,4 +1,4 @@
-互联网的通信安全，建立在SSL/TLS协议之上
+互联网的通信安全，建立在 SSL/TLS 协议之上
 
 不使用 SSL/TLS 的 HTTP 通信，就是不加密的通信。所有信息明文传播，带来了三大风险。
 
@@ -20,7 +20,11 @@ SSL/TLS协议是为了解决这三大风险而设计的，希望达到：
 
 ### SSL 协议
 
-Secure [Socket](https://so.csdn.net/so/search?q=Socket&spm=1001.2101.3001.7020) Layer，安全套接字层，位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。可分为两层： SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)之上，为高层协议提供数据封装、压缩、[加密](https://so.csdn.net/so/search?q=加密&spm=1001.2101.3001.7020)等基本功能的支持。 SSL握手协议(SSL Handshake Protocol)：它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。
+Secure [Socket](https://so.csdn.net/so/search?q=Socket&spm=1001.2101.3001.7020) Layer，安全套接字层，位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。
+
+可分为两层： SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)之上，为高层协议提供数据封装、压缩、[加密](https://so.csdn.net/so/search?q=加密&spm=1001.2101.3001.7020)等基本功能的支持。 
+
+SSL握手协议(SSL Handshake Protocol)：它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。
 
 ### TLS 协议　
 
@@ -30,16 +34,18 @@ Transport Layer Security，安全传输层协议，用于在两个通信应用�
 
 1996年，NetScape公司发布 SSL 3.0版，得到大规模应用。
 
-1999年，互联网标准化组织ISOC接替NetScape公司，在 SSL3.0 的基础上发布了SSL的升级版TLS 1.0版。
+1999年，互联网标准化组织 ISOC 接替 NetScape 公司，在 SSL3.0 的基础上发布了 SSL 的升级版 TLS 1.0 版。
 
-2006年和2008年，TLS进行了两次升级，分别为TLS 1.1版和TLS 1.2版。最新的变动是2011年TLS 1.2的修订版。
+2006年和2008年，TLS 进行了两次升级，分别为 TLS 1.1 版和 TLS 1.2 版。最新的变动是 2011 年 TLS 1.2 的修订版。
 
-目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。
+目前，应用最广泛的是 TLS 1.0，接下来是 SSL 3.0。但是，主流浏览器都已经实现了 TLS 1.2的支持。
 
-TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。
+TLS 1.0 通常被标示为 SSL3.1，TLS 1.1 为 SSL 3.2，TLS 1.2 为 SSL 3.3。
 
 
 
 参考
 
 https://zhuanlan.zhihu.com/p/420055986
+
+https://zhuanlan.zhihu.com/p/657915089

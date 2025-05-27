@@ -46,7 +46,7 @@ application/json、image/jpeg、application/octet-stream 等
 
 #### 请求正文（body）
 
-请求正文向服务器提交的请求数据，GET请求的参数一般是放在请求行后的键值对，post请求的参数类型多样（表单、json、xml、图片等）
+请求正文向服务器提交的请求数据，GET 请求的参数一般是放在请求行后的键值对，post 请求的参数类型多样（表单、json、xml、图片等）
 
 #### 相应行
 

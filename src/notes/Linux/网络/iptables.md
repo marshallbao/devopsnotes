@@ -176,12 +176,24 @@ iptables -A INPUT -p 89 -j ACCEPT
 iptables -t nat -A POSTROUTING -d 10.24.0.0/16 -o eth0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -d 10.5.0.0/25 -o eth0 -j MASQUERADE
 
+# 新建链
+iptables -t nat -N CHAINNAME
+
 # 修改 FORWARD 链的默认规则为 DROP
 iptables -P FORWARD DROP
 
-# 删除规则
+# 删除规则， INPUT 链
 iptables -D INPUT 5
-sudo iptables -D INPUT -s 10.4.5.88 -j ACCEPT
+iptables -D INPUT -s 10.4.5.88 -j ACCEPT
+
+# net 表 POSTROUTING 链
+iptables -t nat -D POSTROUTING 2
+
+# 清空链
+iptables -t nat -F DOCKER
+
+# 删除链
+iptables -t nat -X DOCKER
 
 
 ## 其他相关命令

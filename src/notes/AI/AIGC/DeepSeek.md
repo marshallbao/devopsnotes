@@ -52,6 +52,8 @@ https://cloud.tencent.com/document/product/457/116254
 
 https://deepseek.csdn.net/67ab1acb79aaf67875cb9317.html
 
+
+
 V3 VS R1
 
 DeepSeek V3：定位为通用自然语言处理模型，采用混合专家(MoE)架构，支持多模态任务（文本、图像、音频等）和长文本处理，适用于内容生成、多语言翻译、智能客服等场景‌。DeepSeek V3：适用于大规模自然语言处理任务，如对话式AI、多语言翻译和内容生成等，能够为企业提供高效的AI解决方案，满足多领域的应用需求‌。DeepSeek R1：适用于科学研究、算法交易、代码生成等需要深度逻辑分

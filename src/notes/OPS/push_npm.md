@@ -2,62 +2,45 @@
 
 ### 手动推送
 
-1. 注册npm账号
+1. 注册 npm 账号
 
-注册地址：
+   注册地址：https://www.npmjs.com/
 
-注册地址：https://www.npmjs.com/
-注册时需要提供
+   注册时需要提供
 
-Public Email 邮箱(邮箱是公开的)
+   - Public Email 邮箱(邮箱是公开的)
+   - Username：用户名，唯一性
+   - Password：登录密码
 
-· Username：用户名，唯一性
+2. 下载代码并上传
 
-· Password：登录密码
-
-2. 在github中创建一个npm包的代码库
-
-将github的代码库git clone到本地
-
+```shell
+# 将 github 的代码库 git clone 到本地
 git clone https://github.com/irisnet/irishub-sdk-js.git
 
-进入代码目录
-
+# 进入代码目录
 cd irishub-sdk-js/
 
-执行
-
+# 初始化信息
 npm init
 
-输入相关信息
-
+# package name：比较重要，会显示到 npm 仓库，不能和现有的名称重复
 package name: (@irisnet/irishub-sdk) irishub-sdk-js
-
 version: (0.0.1) v1.0.0-rc0
-
 git repository: (https://github.com/irisnet/irishub-sdk-js.git)
-
 author: bianjie.ai
-
 license: (Apache-2.0)
 
-例如：
-package name：比较重要，会显示到 npm 仓库，不能和现有的名称重复
-version: 版本号
-license：开源协议
+# 登录,npm login --auth-type=legacy  --registry https://registry.npmjs.org
+npm login --auth-type=legacy
 
-3. 登录 npm 账号
+# 发布/推送
+npm publish
+```
 
-打开 cmd 命令行，输入 npm login
-分别输入用户名，密码，邮箱，如下图所示
 
-![](./push_npm.assets/image-20210218141107665.png)
 
-4. 发布 npm 包到仓库
-
-cmd 命令行执行 npm publish
-
-5. 发布成功后，到npm仓库搜索package name即可查询到
+3. 发布成功后，到 npm 仓库搜索 package name 即可查询到
 
 
 
