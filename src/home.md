@@ -1,11 +1,9 @@
 ---
 home: true
 portfolio: true
-title: 个人资料
+title: 主页
 icon: home
-welcome: 👋 你好，我是
 name: 大象
-avatar: https://theme-hope-assets.vuejs.press/hero/conan.png
 
 titles:
   - 一名运维工程师
