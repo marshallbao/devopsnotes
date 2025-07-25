@@ -1,4 +1,7 @@
-         grep 的语法： grep [options pattern-spec [files...] 
+# Grep
+
+grep 的语法： grep [options pattern-spec [files...] 
+
 用途：显示匹配一个或者多个模式的文本行。时常为作为管道的第一步，以便对匹配的数据进一步处理。
  主要选项
  -i ：模式匹配时忽略大小写

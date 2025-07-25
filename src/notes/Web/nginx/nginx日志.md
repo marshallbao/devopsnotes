@@ -1,9 +1,17 @@
+# Nginx 日志
+
 常用日志格式：
 
-​    log_format main '$remote_addr - $remote_user [stime_local] $request' '"$status" $body_bytes_sent "$http_referer"' '"$http_user_agent" "$http_x_forwarded_for"'
-​    
-记录真实的客户端ip:
-​    log_format main '$proxy_add_x_forwarded_for - $remote_user [$time_local]' '"$request" $status $body_bytes_sent' '"$http_referer" "$http_user_agent"';
+```
+log_format main '$remote_addr - $remote_user [stime_local] $request' '"$status" $body_bytes_sent "$http_referer"' '"$http_user_agent" "$http_x_forwarded_for"'
+```
+
+
+记录真实的客户端 ip
+
+```
+log_format main '$proxy_add_x_forwarded_for - $remote_user [$time_local]' '"$request" $status $body_bytes_sent' '"$http_referer" "$http_user_agent"';
+```
 
 相关参数：
 $stime_local：时间;

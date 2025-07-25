@@ -1,4 +1,4 @@
-### URL Rewrite
+# URL Rewrite
 
 1、什么是地址重写？
   Rewrite又称URL Rewrite，即 UR 重写，就是把传入Web的请求重定向到其他URL的过程。

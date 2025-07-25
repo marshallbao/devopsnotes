@@ -59,7 +59,7 @@ npx hardhat run scripts/call_counter.js --network irishubuat
 evm json-rpc
 
 ```
-## 关于合约调用，主要有以下 3 个方法，区别是 
+## 关于合约调用，主要有以下 3 种方法，区别是 
 eth_call: 只调用只读函数，合约/链的状态没有变化
 eth_sendRawTransaction: 离线交易，也就是将进行签名好的交易发送到链上去（等同于 iris tx evm raw ）
 eth_sendTransaction: 写函数，改变合约的状态，需要消耗 gas 以及要进行签名
@@ -124,26 +124,6 @@ https://ethereum.org/en/developers/docs/apis/json-rpc/
 **ethers.js** 是一个用于与以太坊及其兼容链（如 Binance Smart Chain 等）进行交互的 JavaScript 库。
 
 hardhat 是 js 语言编写的；为什么可以编译 solidity ？
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

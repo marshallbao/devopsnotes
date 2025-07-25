@@ -1,3 +1,5 @@
+# Nginx 缓存和压缩
+
 ### nginx 压缩
 
 nginx 默认安装ngx_http_gzip_module,采用的是chunked方式的动态压缩，静态压缩需要使用http_gzip_static_module这个模块，进行pre-compress

@@ -1,4 +1,22 @@
-常用
+# IP  命令
+
+常用模块
+
+```
+# addr
+
+# route
+ip route list
+ip route show table 100
+
+# rule
+ip rule ls
+
+```
+
+
+
+常用命令
 
 ```
 临时添加 eth0 的 ip 地址

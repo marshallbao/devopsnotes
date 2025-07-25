@@ -1,3 +1,5 @@
+# systemctl
+
 linux7 之后服务管理是 systemctl
 
 运行级别 ？

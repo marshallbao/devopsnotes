@@ -1,6 +1,6 @@
-## lftp 简介
+# lftp 简介
 
-
+### lftp 简介
 
 lftp是个功能强大的字符界面文档传输工具，它包含以下功能：
 • 支持ftp、ftps、http、https、hftp、fish等传输协议
@@ -14,7 +14,7 @@ lftp是个功能强大的字符界面文档传输工具，它包含以下功能�
 
 
 
-## 登录 ftp服务器
+### 登录 ftp服务器
 
 
 
@@ -33,7 +33,7 @@ lftp 别名  也可以编辑 lftp 的配置文件 `~/.lftp/bookmarks` ，格式�
 
 
 
-## lftp 使用方法
+### lftp 使用方法
 
 
 

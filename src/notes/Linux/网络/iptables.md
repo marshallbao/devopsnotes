@@ -1,4 +1,4 @@
-### iptables
+# iptables
 
 ### 定义
 
@@ -85,13 +85,13 @@ raw 表：关闭 nat 表上启用的连接追踪机制；iptable_raw
 
 
 
-| 链名           | 功能                         |
-| -------------- | ---------------------------- |
-| **INPUT**      | **处理输入数据包**           |
-| **OUTPUT**     | **处理输出数据包**           |
-| **PORWARD**    | **处理转发数据包**           |
-| **PREROUTING** | **用于目标地址转换（DNAT）** |
-| **POSTOUTING** | **用于源地址转换（SNAT）**   |
+| 链名           | 功能                   |
+| -------------- | ---------------------- |
+| **INPUT**      | 处理输入数据包         |
+| **OUTPUT**     | 处理输出数据包         |
+| **PORWARD**    | 处理转发数据包         |
+| **PREROUTING** | 用于目标地址转换(DNAT) |
+| **POSTOUTING** | 用于源地址转换(SNAT)   |
 
 规则（Rule）：规则是 iptables 中的基本单位，用于定义如何处理数据包。规则包括匹配条件和目标动作，当数据包满足匹配条件时，将执行目标动作。
 
@@ -131,9 +131,131 @@ raw 表：关闭 nat 表上启用的连接追踪机制；iptable_raw
 
 
 
+##### 链表的优先级
+
+在 iptables 中，链表的执行顺序决定了数据包的路由和处理方式。一般来说，链表的优先级顺序是先处理，后执行。﻿
+
+- `PREROUTING`链(位于raw, mangle, nat表):当数据包进入网卡时，首先会被`PREROUTING`链处理。由于该链在多个表(raw, mangle, nat)中都存在，其执行的优先级是raw(PREROUTING) -> mangle(PREROUTING) -> nat(PREROUTING)。
+- `INPUT`链(位于filter表):针对进入主机的网络数据包进行处理。
+- `FORWARD`链(位于filter表):针对经过主机转发的网络数据包进行处理。
+- `OUTPUT`链(位于filter表):针对主机发出的网络数据包进行处理。
+- `POSTROUTING`链(位于nat表):对即将离开主机的网络数据包进行处理，比如进行源地址转换。
+
+所以，`PREROUTING`链是最先被执行的，而`POSTROUTING`链是最后被执行的，其主要作用是对数据包进行地址修改。
+
+总结来说，iptables 的链表优先级大致如下:
+
+1. `PREROUTING` (raw, mangle, nat)
+2. `INPUT` (filter)
+3. `FORWARD` (filter)
+4. `OUTPUT` (filter)
+5. `POSTROUTING` (nat)
+
+需要注意的是，`PREROUTING`链在三个表(raw, mangle, nat)中都有存在，其执行顺序是先raw，然后mangle，最后是nat。
+
+
+
 ##### 数据包处理流程图
 
 ![image-20240411152150502](iptables.assets/image-20240411152150502.png)
+
+文字版
+
+数据包在 Linux 网络栈中的处理顺序取决于 **数据包方向**（入站/出站/转发）。以下是经典流程：
+
+（1）入站流量（Incoming Traffic，目标为本机）
+
+```
+1. 网卡接收数据包
+   │
+   ↓
+2. **raw 表 PREROUTING 链**（决定是否跳过连接跟踪）
+   │
+   ↓
+3. **mangle 表 PREROUTING 链**（修改包标记、TTL 等）
+   │
+   ↓
+4. **nat 表 PREROUTING 链**（DNAT：修改目标地址，如端口转发）
+   │
+   ↓
+5. 路由决策（判断包是发给本机还是转发？）
+   │
+   ↓
+6. **mangle 表 INPUT 链**（进一步修改包）
+   │
+   ↓
+7. **filter 表 INPUT 链**（过滤：允许/拒绝/丢弃）
+   │
+   ↓
+8. 本地进程处理（如应用程序接收数据）
+```
+
+（2）出站流量（Outgoing Traffic，本机发出）
+
+```
+1. 本地进程生成数据包
+   │
+   ↓
+2. **raw 表 OUTPUT 链**（决定是否跳过连接跟踪）
+   │
+   ↓
+3. **mangle 表 OUTPUT 链**（修改包标记、TTL 等）
+   │
+   ↓
+4. **nat 表 OUTPUT 链**（出站 DNAT，较少使用）
+   │
+   ↓
+5. 路由决策（确定出口网卡和目标 MAC）
+   │
+   ↓
+6. **filter 表 OUTPUT 链**（过滤：允许/拒绝/丢弃）
+   │
+   ↓
+7. **mangle 表 POSTROUTING 链**（最后修改包）
+   │
+   ↓
+8. **nat 表 POSTROUTING 链**（SNAT/MASQUERADE：修改源地址）
+   │
+   ↓
+9. 发送到网卡
+```
+
+（3）转发流量（Forwarded Traffic，经本机路由）
+
+```
+1. 网卡接收数据包
+   │
+   ↓
+2. **raw 表 PREROUTING 链**（跳过连接跟踪？）
+   │
+   ↓
+3. **mangle 表 PREROUTING 链**（修改包）
+   │
+   ↓
+4. **nat 表 PREROUTING 链**（DNAT：修改目标地址）
+   │
+   ↓
+5. 路由决策（判断需要转发）
+   │
+   ↓
+6. **mangle 表 FORWARD 链**（修改转发包）
+   │
+   ↓
+7. **filter 表 FORWARD 链**（过滤：允许/拒绝/丢弃）
+   │
+   ↓
+8. **mangle 表 POSTROUTING 链**（最后修改包）
+   │
+   ↓
+9. **nat 表 POSTROUTING 链**（SNAT/MASQUERADE：修改源地址）
+   │
+   ↓
+10. 发送到目标网卡
+```
+
+
+
+
 
 ### 常用参数
 
@@ -186,7 +308,7 @@ iptables -P FORWARD DROP
 iptables -D INPUT 5
 iptables -D INPUT -s 10.4.5.88 -j ACCEPT
 
-# net 表 POSTROUTING 链
+# nat 表 POSTROUTING 链
 iptables -t nat -D POSTROUTING 2
 
 # 清空链

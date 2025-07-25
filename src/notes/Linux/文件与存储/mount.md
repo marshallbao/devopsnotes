@@ -1,3 +1,5 @@
+# 挂载
+
 umount:
 挂载
 mount -t nfs ip:/data/instance /mnt

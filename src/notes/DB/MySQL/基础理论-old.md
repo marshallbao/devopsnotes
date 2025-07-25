@@ -1,4 +1,4 @@
-## 关系型数据库基础
+# 关系型数据库基础
 
 MySQL
 SQL/MySQL
@@ -285,8 +285,8 @@ MySQL客户端工具：
 ​	
 ​	
 ​	
-	show databases;
-	show engines;
+​	show databases;
+​	show engines;
 
 MySQL非客户端工具：
 		myisamchk
@@ -477,8 +477,8 @@ DBA：
 
 
 ​		
-	dns
-	
+​	dns
+​	
 	RRtype CHAR(4)
 		A,PTR,CHAME,AAAA,MX,NS,SOA,SRV
 	
@@ -894,7 +894,7 @@ MySQL的备份和还原
 
 
 ​		
-	在线：物理完全备份
+​	在线：物理完全备份
 
 还原：
 	时常演练、还原操作、谨慎、敬畏

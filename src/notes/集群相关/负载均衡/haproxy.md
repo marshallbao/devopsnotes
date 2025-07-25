@@ -1,4 +1,4 @@
-# HAProxy用法详解
+# HAProxy 用法详解
 
 ### 一、HAProxy简介
 
