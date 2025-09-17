@@ -1,3 +1,5 @@
+# AlertManager 配置
+
 Alertmanager 主要负责对 Prometheus 产生的告警进行统一处理，因此在 Alertmanager 配置中一般会包含以下几个主要部分：
 
 - 全局配置（global）：用于定义一些全局的公共参数，如全局的SMTP配置，Slack配置等内容；

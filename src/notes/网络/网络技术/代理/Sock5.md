@@ -1,3 +1,5 @@
+# SOCKS5
+
 ### 概念
 
 SOCKS5（Socket Secure 5）是一个网络传输协议，用于在客户端和服务器之间进行数据通信，与 SOCKS4 相比，SOCKS5 提供更高级的安全和验证机制，同时可以协商最适合连接的通信协议（例如 TCP 或 UDP）。SOCKS5 被广泛应用于代理服务器，它可以允许客户端通过代理服务器访问 Internet。它支持各种身份验证方法，包括用户名和密码、GSS API 和 Kerberos V5 等

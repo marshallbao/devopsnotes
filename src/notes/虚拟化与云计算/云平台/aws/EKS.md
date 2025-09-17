@@ -1,3 +1,5 @@
+# EKS
+
 ### 关于权限
 
 创建 Amazon EKS 集群时，将为创建集群的 [IAM 主体](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)自动授予 Amazon EKS 控制面板中基于集群角色的访问控制（RBAC）配置中的 `system:masters` 权限。该主体不会显示在任何可见配置中，**因此请确保跟踪最初创建集群的主体。**

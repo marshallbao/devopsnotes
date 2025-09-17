@@ -1,3 +1,5 @@
+# Pages
+
 ### Pages
 
 首先当你新建一个Gitlab项目的时候，你同时也建了一个存储库。只要你的工程目录的根目录下有.gitlab-ci.yml文件，注意必须严格起这个名字。gitlab runner就会执行这个脚本文件。

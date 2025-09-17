@@ -2,7 +2,8 @@
 
 滚动日志时不影响程序正常的日志输出
 
-方案1：create
+方案1：create 
+
 create 是默认方案，与方案2  copytruncate 互斥；
 
 这个方案的思路是重命名原日志文件，创建新的日志文件。详细步骤如下：
@@ -27,32 +28,52 @@ create 是默认方案，与方案2  copytruncate 互斥；
 2. 清空程序正在输出的日志文件。清空后程序输出的日志还是输出到这个日志文件中，因为清空文件只是把文件的内容删除了，文件的inode编号并没有发生变化，变化的是元信息中文件内容的信息，结果上看，旧的日志内容存在滚动的文件里，新的日志输出到空的文件里。实现了日志的滚动。
 
 总结：
-    1、copytruncate有丢失部分日志内容的风险，能用create的方案就别用copytruncate；
-    2、程序写日志的方式，都是用O_APPEND的方式写的，可以让logroate清空日志文件后，程序输出的日志都是从文件开始处开始写；
+    1、copytruncate 有丢失部分日志内容的风险，能用 create 的方案就别用 copytruncate；
+    2、程序写日志的方式，都是用 O_APPEND 的方式写的，可以让 logroate 清空日志文件后，程序输出的日志都是从文件开始处开始写；
 
-使用 logrotate 切割日志：
-
-1、编辑配置文件
+示例 1：使用 logrotate 切割日志
 
 ```
-cat /etc/logrotate.d/platon
-/media/platon.log {
-	copytruncate  #模式选择
-	size=20M     #文件在20M以上才进行切割
-	rotate 5  #保留几个文件
-	create   #产生新文件
+[root@app-mongodb-1 logrotate.d]# cat mongodb 
+/var/log/mongodb/mongod.log
+{
+    missingok # 如果日志文件不存在，不报错，继续执行
+    daily # 每天检测一次
+    dateext # 轮转后的文件名加上日期后缀
+    copytruncate # 模式
+    rotate 30 # 保留多少个文件
+    notifempty # 如果日志文件为空，则不切割。
+    size 100M # 日志文件超过 100M 时触发切割
+}
+
+```
+
+
+
+示例 2：使用 logrotate 压缩处理多个日志
+
+```
+/var/log/remote/10.0.1.2/*.log
+{
+    compress
+    delaycompress
+    missingok
+    notifempty
+    rotate 100
+    daily
+    dateext
 }
 ```
 
-2、配置定时任务
-    a.编辑执行脚本
+
+
+### 其他命令
 
 ```
-#!/bin/sh
-test -x /usr/sbin/logrotate || exit 0
-/usr/sbin/logrotate  /etc/logrotate.d/platon
+# 模拟执行
+logrotate --debug /etc/logrotate.d/remote-logs
+
+# 强制执行
+logrotate -f /etc/logrotate.d/rsyslog
 ```
 
-​    b.编辑定时任务
-​        1、可以通过自定义定时任务执行脚本
-​        2、可以将脚本放置系统的定时任务文件夹下来执行

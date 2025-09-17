@@ -1,3 +1,5 @@
+# WireGuard
+
 概念
 
 [WireGuard](https://www.wireguard.com/) 是一个易于配置、快速且安全的开源 [VPN](https://en.wikipedia.org/wiki/Virtual_private_network)，它利用了最新的加密技术。目的是提供一种更快、更简单、更精简的通用 VPN，它可以轻松地在树莓派这类低端设备到高端服务器上部署。

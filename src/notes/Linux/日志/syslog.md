@@ -2,13 +2,13 @@
 
 ### syslog.conf 介绍
 
-   对于不同类型的Unix，标准UnixLog系统的设置，实际上除了一些关键词的不同，系统的syslog.conf格式是相同的。syslog采用可配置的、统一的系统登记程序，随时从系统各处接受log请求，然后根据/etc/syslog.conf中的预先设定把log信息写入相应文件中、邮寄给特定用户或者直接以消息的方式发往控制台。值得注意的是，为了防止入侵者修改、删除messages里的记录信息，可以采用用打印机记录或采用方式来挫败入侵者的企图。
+对于不同类型的Unix，标准UnixLog系统的设置，实际上除了一些关键词的不同，系统的 syslog.conf 格式是相同的。syslog采用可配置的、统一的系统登记程序，随时从系统各处接受log请求，然后根据 /etc/syslog.conf 中的预先设定把log信息写入相应文件中、邮寄给特定用户或者直接以消息的方式发往控制台。值得注意的是，为了防止入侵者修改、删除messages里的记录信息，可以采用用打印机记录或采用方式来挫败入侵者的企图。
 
 ### syslog.conf 格式
 
-可以参考man [5] syslog.conf。这里是对syslog.conf的简单介绍
+可以参考man [5] syslog.conf。这里是对 syslog.conf 的简单介绍
 
- /etc/syslog.conf文件中的一项配置记录由“选项”(selector)和“动作”(action)两个部分组成，两者间用tab制表符
+/etc/syslog.conf文件中的一项配置记录由“选项”(selector)和“动作”(action)两个部分组成，两者间用tab制表符
 
 进 行分隔(使用空格间隔是无效的)。而“选项”又由一个或多个形如“类型.级别”格式的保留字段组合而成，各保留字
 
@@ -51,7 +51,7 @@
 
 ### 具体实例
 
-​    我们来看看/etc/syslog.conf文件中的实例： 
+我们来看看/etc/syslog.conf文件中的实例： 
 
 ```
 *.err;kern.debug;daemon.notice;mail.crit    [TAB]   /var/adm/messages 
@@ -70,7 +70,7 @@ mail.crit - 邮件系统的关键警告信息
 
 日志文件按/etc/syslog.conf 配置文件中的描述进行组织。以下是/etc/syslog.conf 文件的内容：
 
-```
+```shell
 [root@FlowServer syslog]# cat /etc/syslog.conf 
 \# Log all kernel messages to the console.
 \# Logging much else clutters up the screen.

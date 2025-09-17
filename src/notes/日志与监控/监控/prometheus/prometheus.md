@@ -2,6 +2,16 @@
 
 
 
+### 安装部署
+
+docker 单机
+
+```
+docker run -d  -v /prometheus/data:/prometheus -p /prometheus/config:/etc/prometheus/ -p 9090:9090 prom/prometheus:v3.5.0
+```
+
+
+
 指标数据类型
 
 Prometheus四种主要的指标类型包括 Counter、Gauge、Histogram和Summary

@@ -1,3 +1,5 @@
+监控 Minio
+
 1、设置prometheus身份认证，添加变量
 
 ```

@@ -1,11 +1,5 @@
 # DevOpsNotes - 个人运维笔记
 
-[![VuePress](https://img.shields.io/badge/VuePress-2.0.0--rc.19-brightgreen.svg)](https://v2.vuepress.vuejs.org/)
-[![VuePress Theme Hope](https://img.shields.io/badge/VuePress%20Theme%20Hope-2.0.0--rc.66-blue.svg)](https://theme-hope.vuejs.press/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-> 基于 VuePress 2 和 VuePress Theme Hope 主题构建的个人运维技术笔记网站
-
 ## 📖 项目介绍
 
 这是一个使用 [VuePress](https://vuepress.vuejs.org/zh/) 和 [VuePress Theme Hope](https://theme-hope.vuejs.press/zh/) 主题构建的个人技术笔记网站。主要记录运维、DevOps、容器化、中间件、数据库等相关技术内容。
@@ -69,11 +63,5 @@ devopsnotes/
 
 ### 官方文档
 
-- [VuePress 2 官方文档](https://v2.vuepress.vuejs.org/)
-- [VuePress Theme Hope 官方文档](https://theme-hope.vuejs.press/)
-- [Vue 3 官方文档](https://vuejs.org/)
-- [Vite 官方文档](https://vitejs.dev/)
-
-## 📄 许可证
-
-本项目采用 [MIT 许可证](LICENSE)。
+- [VuePress 官方文档](https://vuepress.vuejs.org)
+- [VuePress Theme Hope 官方文档](https://theme-hope.vuejs.press)

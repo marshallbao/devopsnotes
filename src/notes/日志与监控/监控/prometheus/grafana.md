@@ -1,5 +1,14 @@
 # Grafana
 
+### 安装部署
+
+docker
+
+```
+# 默认密码为 admin/admin
+docker run -d --name=grafana -p 3333:3000 grafana/grafana:11.5-ubuntu
+```
+
 
 
 Query Options

@@ -1,3 +1,5 @@
+# WireGuard
+
 ### WireGuard
 
 WireGuard 是一个利用现有社会最先进的加密技术而产生的非常简单和快捷的 VPN 工具。它的目标是比 IPsec 更快，更简单，更精简，更易用，同时避免大规模配置 IPsec 的麻烦事。同时 WireGuard 也打算比 OpenVPN 更高效。 WireGuard 设计为通用 VPN，可在嵌入式设备和常见计算机上运行，适用于多种不同情况。 WireGuard 最初是为 Linux 内核发布的，而现在 WireGuard 已经可广泛部署并且跨平台支持
