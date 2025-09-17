@@ -39,7 +39,7 @@ jobs:
 
       - name: Build VuePress
         run: |
-          pnpm docs:build
+          pnpm docs:build && ls ./src/.vuepress/dist
     
   # Single deploy job since we're just deploying
   deploy:
@@ -58,11 +58,12 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'src/.vuepress/dist'
+          path: './src/.vuepress/dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
 
 
 
