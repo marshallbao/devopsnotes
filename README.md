@@ -36,10 +36,20 @@ pnpm docs:build
 
 ### 部署
 
+```shell
+# 安装依赖
+pnpm install
+
+# 构建出静态资源
+pnpm docs:build
+
+# 部署静态资源
+cp -r ./src/.vuepress/dist /usr/share/nginx/html
+```
 
 ## 📁 项目结构
 
-```
+```shell
 devopsnotes/
 ├── src/
 │   ├── .vuepress/
